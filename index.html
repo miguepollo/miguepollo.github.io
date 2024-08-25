@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,24 +32,48 @@
             bottom: 0;
             width: 100%;
         }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .portadas {
+            background-color: #e0e0e0;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .portadas img {
+            width: 200px;
+            height: auto;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        .portadas img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Bienvenido a Mi Página Web</h1>
     </header>
+    <div class="portadas">
+        <h2>Portadas de Libros</h2>
+        <a href="https://github.com/miguepollo/miguepollo.github.io/settings/pages">
+            <img src="Memorias Robadas.png" alt="Portada de Memorias Robadas">
+        </a>
+    </div>
     <main>
         <h2>Sobre mí</h2>
-        <p>Hola, soy [Tu Nombre]. Esta es mi página web personal creada con GitHub Pages.</p>
+        <p>Hola, soy Miguel. Esta es mi página web personal creada con GitHub Pages.</p>
+        
         <h2>Mis Proyectos</h2>
-        <ul>
-            <li>Proyecto 1</li>
-            <li>Proyecto 2</li>
-            <li>Proyecto 3</li>
-        </ul>
+        <p>Haz clic en las portadas de los libros arriba para ver mis proyectos.</p>
     </main>
     <footer>
-        <p>&copy; 2024 [Tu Nombre]. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Miguel. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
