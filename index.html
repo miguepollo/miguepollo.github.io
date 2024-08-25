@@ -84,6 +84,15 @@
             border: 1px solid #ccc;
             border-top: none;
         }
+        
+        .video-container {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        .video-container video {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -121,9 +130,8 @@
         <h2>Mis Proyectos en Github</h2>
         <p>Aquí encontrarás algunos de mis proyectos en Github:</p>
         <ul>
-            <li><a href="#">Proyecto 1</a> - Breve descripción del proyecto</li>
-            <li><a href="#">Proyecto 2</a> - Breve descripción del proyecto</li>
-            <li><a href="#">Proyecto 3</a> - Breve descripción del proyecto</li>
+            <li><a href="https://github.com/ktecho/resurrection-wallet">Resurrection Wallet</a> Frontend de para Phoenixd </li>
+            <li><a href="https://github.com/jamaljsr/polar">Polar</a> Simulador de nodos de Lightning Network</li>
         </ul>
     </div>
 
@@ -135,6 +143,14 @@
             <li><a href="#">Juego 2</a> - Breve descripción del juego</li>
             <li><a href="#">Juego 3</a> - Breve descripción del juego</li>
         </ul>
+        
+        <h3>Video de mi proyecto en Unreal Engine</h3>
+        <div class="video-container">
+            <video controls>
+                <source src="yt5s.io-Rick Astley - Never Gonna Give You Up (Official Music Video)(360p).mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+        </div>
     </div>
 
     <div id="QueEncontrar" class="tabcontent">
@@ -167,7 +183,7 @@
             evt.currentTarget.className += " active";
         }
 
-        // Abrir la pestaña "Main" por defecto
+        // Abrir la pestaña "Principal" por defecto
         document.getElementById("defaultOpen").click();
     </script>
 </body>
