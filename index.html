@@ -9,12 +9,19 @@
     <title>Mi Página Web</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el cuerpo ocupe al menos toda la altura de la ventana */
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #f0f0f0;
             color: #333;
+        }
+        .content {
+            flex: 1; /* Permite que el contenido principal ocupe el espacio disponible */
+            padding: 20px; /* Espaciado alrededor del contenido */
         }
         .tab {
             overflow: hidden;
@@ -84,9 +91,11 @@
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
+            padding-bottom: 10px;
             border-top: 1px solid #ccc;
+            background-color: black; /* Fondo negro */
+            color: white; /* Texto blanco */
             font-size: 0.9em;
-            color: #666;
         }
         .book-description {
             display: none;
@@ -144,84 +153,86 @@
 </head>
 <body>
 
-<div>
-    <h1>Bienvenido a Mi Página Web</h1>
-</div>
-
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Principal')">Principal</button>
-    <button class="tablinks" onclick="openTab(event, 'Libros')">Libros</button>
-    <button class="tablinks" onclick="openTab(event, 'ProyectosGithub')">Proyectos Github</button>
-    <button class="tablinks" onclick="openTab(event, 'ProyectosUnreal')">Proyectos Unreal Engine</button>
-    <button class="tablinks" onclick="openTab(event, 'QueEncontrar')">Qué vas a encontrar aquí</button>
-</div>
-
-<div id="Principal" class="tabcontent">
-    <div role="main">
-        <h2>Sobre mí</h2>
-        <p>Hola, soy Miguel. Esta página está dedicada a mostrar mis proyectos al mundo. Aquí encontrarás información sobre mis libros publicados, proyectos de desarrollo en Github y creaciones en Unreal Engine. Te invito a explorar y descubrir mi trabajo en diferentes áreas creativas y tecnológicas.</p>
-    </div>
-</div>
-
-<div id="Libros" class="tabcontent">
-    <div class="portadas">
-        <h2>Portadas de Libros</h2>
-        <a href="#" onclick="toggleBookDescription('memorias-robadas'); return false;">
-            <img src="Memorias Robadas.webp" alt="Portada de Memorias Robadas">
-        </a>
-    </div>
-    <div id="memorias-robadas" class="book-description">
-        <span class="close-btn" onclick="closeBookDescription('memorias-robadas')">&times;</span>
-        <h3>Memorias Robadas</h3>
-        <p>Kiran, un huérfano con la capacidad de ver a través de ilusiones mentales, se enfrenta a una sociedad controlada por manipuladores de recuerdos. Debe usar su don para revelar la verdad y liberar a la población de una falsa felicidad, mientras descubre secretos sobre su propio pasado.</p>
-        <a href="https://www.amazon.com" class="book-link" target="_blank">Ver en Amazon</a>
-    </div>
-</div>
-
-<div id="ProyectosGithub" class="tabcontent">
-    <h2>Mis Proyectos en Github</h2>
-    <p>Aquí encontrarás algunos proyectos favoritos de Github:</p>
-    <ul>
-        <li><a href="https://github.com/ktecho/resurrection-wallet">Resurrection Wallet</a> - Frontend de para Phoenixd</li>
-        <li><a href="https://github.com/jamaljsr/polar">Polar</a> - Simulador de nodos de Lightning Network</li>
-        <li><a href="https://github.com/miguepollo/miguepollo.github.io"></a> - Esta página web</li>
-    </ul>
-</div>
-
-<div id="ProyectosUnreal" class="tabcontent">
-    <h2>Mis Proyectos en Unreal Engine</h2>
-    
-    <div id="videoJuego1" class="video-container">
-        <video width="640" height="360" controls>
-            <source src="yt5s.io-Rick Astley - Never Gonna Give You Up (Official Music Video)(360p).mp4" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
+<div class="content">
+    <div>
+        <h1>Bienvenido a Mi Página Web</h1>
     </div>
 
-    <p>Estos son algunos de mis proyectos desarrollados con Unreal Engine:</p>
-    <ul>
-        <li><a href="#" onclick="playVideo('videoJuego1'); return false;">Juego 1</a> - Breve descripción del juego</li>
-        <li><a href="#">Juego 2</a> - Breve descripción del juego</li>
-        <li><a href="#">Juego 3</a> - Breve descripción del juego</li>
-    </ul>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Principal')">Principal</button>
+        <button class="tablinks" onclick="openTab(event, 'Libros')">Libros</button>
+        <button class="tablinks" onclick="openTab(event, 'ProyectosGithub')">Proyectos Github</button>
+        <button class="tablinks" onclick="openTab(event, 'ProyectosUnreal')">Proyectos Unreal Engine</button>
+        <button class="tablinks" onclick="openTab(event, 'QueEncontrar')">Qué vas a encontrar aquí</button>
+    </div>
 
-    <h3>Video de mi proyecto en Unreal Engine</h3>
-    <p>Este video muestra una demostración de mi último proyecto en Unreal Engine. En él, puedes ver las características principales del juego, incluyendo los gráficos, la jugabilidad y los efectos especiales que he implementado.</p>
-</div>
+    <div id="Principal" class="tabcontent">
+        <div role="main">
+            <h2>Sobre mí</h2>
+            <p>Hola, soy Miguel. Esta página está dedicada a mostrar mis proyectos al mundo. Aquí encontrarás información sobre mis libros publicados, proyectos de desarrollo en Github y creaciones en Unreal Engine. Te invito a explorar y descubrir mi trabajo en diferentes áreas creativas y tecnológicas.</p>
+        </div>
+    </div>
 
-<div id="QueEncontrar" class="tabcontent">
-    <h2>Qué vas a encontrar aquí</h2>
-    <p>En esta página encontrarás información sobre mis proyectos, incluyendo:</p>
-    <ul>
-        <li>Mis libros publicados</li>
-        <li>Proyectos en Github mios o recomendados por mi</li>
-        <li>Proyectos Hechos por mi de Unreal Engine</li>
-    </ul>
+    <div id="Libros" class="tabcontent">
+        <div class="portadas">
+            <h2>Portadas de Libros</h2>
+            <a href="#" onclick="toggleBookDescription('memorias-robadas'); return false;">
+                <img src="Memorias Robadas.webp" alt="Portada de Memorias Robadas">
+            </a>
+        </div>
+        <div id="memorias-robadas" class="book-description">
+            <span class="close-btn" onclick="closeBookDescription('memorias-robadas')">&times;</span>
+            <h3>Memorias Robadas</h3>
+            <p>Kiran, un huérfano con la capacidad de ver a través de ilusiones mentales, se enfrenta a una sociedad controlada por manipuladores de recuerdos. Debe usar su don para revelar la verdad y liberar a la población de una falsa felicidad, mientras descubre secretos sobre su propio pasado.</p>
+            <a href="https://www.amazon.com" class="book-link" target="_blank">Ver en Amazon</a>
+        </div>
+    </div>
+
+    <div id="ProyectosGithub" class="tabcontent">
+        <h2>Mis Proyectos en Github</h2>
+        <p>Aquí encontrarás algunos proyectos favoritos de Github:</p>
+        <ul>
+            <li><a href="https://github.com/ktecho/resurrection-wallet">Resurrection Wallet</a> - Frontend de para Phoenixd</li>
+            <li><a href="https://github.com/jamaljsr/polar">Polar</a> - Simulador de nodos de Lightning Network</li>
+            <li><a href="https://github.com/miguepollo/miguepollo.github.io"></a> - Esta página web</li>
+        </ul>
+    </div>
+
+    <div id="ProyectosUnreal" class="tabcontent">
+        <h2>Mis Proyectos en Unreal Engine</h2>
+        
+        <div id="videoJuego1" class="video-container">
+            <video width="640" height="360" controls>
+                <source src="yt5s.io-Rick Astley - Never Gonna Give You Up (Official Music Video)(360p).mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+        </div>
+
+        <p>Estos son algunos de mis proyectos desarrollados con Unreal Engine:</p>
+        <ul>
+            <li><a href="#" onclick="playVideo('videoJuego1'); return false;">Juego 1</a> - Breve descripción del juego</li>
+            <li><a href="#">Juego 2</a> - Breve descripción del juego</li>
+            <li><a href="#">Juego 3</a> - Breve descripción del juego</li>
+        </ul>
+
+        <h3>Video de mi proyecto en Unreal Engine</h3>
+        <p>Este video muestra una demostración de mi último proyecto en Unreal Engine. En él, puedes ver las características principales del juego, incluyendo los gráficos, la jugabilidad y los efectos especiales que he implementado.</p>
+    </div>
+
+    <div id="QueEncontrar" class="tabcontent">
+        <h2>Qué vas a encontrar aquí</h2>
+        <p>En esta página encontrarás información sobre mis proyectos, incluyendo:</p>
+        <ul>
+            <li>Mis libros publicados</li>
+            <li>Proyectos en Github mios o recomendados por mi</li>
+            <li>Proyectos Hechos por mi de Unreal Engine</li>
+        </ul>
+    </div>
 </div>
 
 <footer>
     <p>© 2024 Miguel. Todos los derechos reservados.</p>
-    <p>Si te gusta mi trabajo, puedes apoyarme aquí -> migue@getalby.com (Direccion de Bitcoin)</p>
+    <p>Si te gusta mi trabajo, puedes apoyarme aquí -> migue@getalby.com (Dirección de Bitcoin)</p>
 </footer>
 
 <script>
@@ -248,10 +259,6 @@ function playVideo(videoId) {
     }
 }
 
-// Abre la pestaña Principal por defecto
-document.getElementById("Principal").style.display = "block";
-document.getElementsByClassName("tablinks")[0].className += " active";
-
 function toggleBookDescription(bookId) {
     var description = document.getElementById(bookId);
     if (description.style.display === "none" || description.style.display === "") {
@@ -265,6 +272,10 @@ function closeBookDescription(bookId) {
     var description = document.getElementById(bookId);
     description.style.display = "none";
 }
+
+// Abre la pestaña Principal por defecto
+document.getElementById("Principal").style.display = "block";
+document.getElementsByClassName("tablinks")[0].className += " active";
 </script>
 
 </body>
