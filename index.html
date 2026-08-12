@@ -253,6 +253,10 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 /* ---------- Proyectos ---------- */
 const projects = [
+  { name: 'llm_predict_markets', cat: 'ia', lang: 'Python', icon: 'fa-arrow-trend-up',
+    desc: 'Predicciones de mercados con LLM y 4 backends de forecasting: TimesFM 2.5, Moirai, Kronos y Chronos-2. Con soporte de GPU (NVIDIA, AMD, Intel XPU/NPU) y tests. Fork con mis mejoras.',
+    tags: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'],
+    url: 'https://github.com/miguepollo/llm_predict_markets' },
   { name: 'Asistente-Virtual-Kubik', cat: 'ia', lang: 'Python', icon: 'fa-microphone-lines',
     desc: 'Asistente de voz 100% offline para Orange Pi 5 Ultra: wake word, STT (Vosk), TTS (Piper) y LLM acelerado por NPU, con panel web de configuración.',
     tags: ['Python', 'IA local', 'LLM', 'Flask', 'Linux'],
