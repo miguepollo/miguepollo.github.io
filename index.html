@@ -1,275 +1,411 @@
 <!DOCTYPE html>
-
-
 <html lang="es">
-
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-    <meta name="description"
-        content="Página web personal de Miguel, autor de 'Memorias Robadas'. Descubre mis proyectos en Github, Unreal Engine y mis libros publicados.">
-    <title>Mi Página Web</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="miguepollo · Desarrollador con base sólida en Python y Linux. IA en local, Home Assistant, Machine Learning y Testing/QA.">
+<title>miguepollo · Desarrollador Python &amp; Linux</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-    <div class="content">
-        <div>
-            <h1>Bienvenido a Mi Página Web</h1>
-        </div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="glow glow-a" aria-hidden="true"></div>
+<div class="glow glow-b" aria-hidden="true"></div>
 
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Principal')">Principal</button>
-            <button class="tablinks" onclick="openTab(event, 'Libros')">Libros</button>
-            <button class="tablinks" onclick="openTab(event, 'ProyectosGithub')">Proyectos Github</button>
-            <button class="tablinks" onclick="openTab(event, 'Proyectosgusta')">Proyectos Que Me Gustan</button>
-            <button class="tablinks" onclick="openTab(event, 'ProyectosUnreal')">Proyectos Unreal Engine</button>
-            <button class="tablinks" onclick="openTab(event, 'LibrosLeidos')">Libros Leídos</button>
-            <button class="tablinks" onclick="openTab(event, 'Comparaciones')">Comparaciones</button>
-            <button class="tablinks" onclick="openTab(event, 'Contacto')">Contacto</button>
+<header class="nav">
+  <a class="nav-logo" href="#inicio">&lt;miguepollo/&gt;</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <nav class="nav-links" id="navLinks">
+    <a href="#inicio">Inicio</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="https://github.com/miguepollo" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+  </nav>
+</header>
 
-        </div>
-
-        <div id="Principal" class="tabcontent">
-            <div role="main">
-                <h2>Sobre mí</h2>
-                <p>Hola, soy Miguel. Soy un autor de ciencia ficción y un desarrollador de software.
-                    Esta página está dedicada a mostrar mis proyectos al mundo. Aquí encontrarás información sobre mis
-                    libros publicados, proyectos de desarrollo en Github y creaciones en Unreal Engine.</p>
-            </div>
-        </div>
-
-        <div id="Libros" class="tabcontent">
-            <div class="portadas">
-                <h2>Portadas de Libros</h2>
-                <a href="#" onclick="toggleBookDescription('memorias-robadas'); return false;">
-                    <img src="Memorias Robadas.webp" alt="Portada de Memorias Robadas">
-                </a>
-                <a href="https://www.amazon.es/dp/B0DFD2DW5R?asin=B0DFD2DW5R&revisionId=f861033c&format=3&depth=1"
-                    class="book-link fragment-link">Fragmento del libro</a>
-
-            </div>
-            <div id="memorias-robadas" class="book-description">
-                <span class="close-btn" onclick="closeBookDescription('memorias-robadas')">&times;</span>
-                <h3>Memorias Robadas</h3>
-                <p>Kiran, un huérfano con la capacidad de ver a través de ilusiones mentales, se enfrenta a una sociedad
-                    controlada por manipuladores de recuerdos. Debe usar su don para revelar la verdad y liberar a la
-                    población de una falsa felicidad, mientras descubre secretos sobre su propio pasado.</p>
-                <a href="https://amzn.to/4cGW5Az" class="book-link" target="_blank">Ver en Amazon</a>
-            </div>
-        </div>
-
-        <div id="ProyectosGithub" class="tabcontent">
-            <h2>Mis Proyectos en Github</h2>
-            <p>Aquí encontrarás algunos proyectos mios de Github:</p>
-            <ul>
-                <li><a href="https://github.com/miguepollo/My-TTGO-Watch">My-TTGO-Watch</a> - Software para T-watch S3
-                </li>
-                <li><a href="https://github.com/miguepollo/miguepollo.github.io">Esta página web</a></li>
-            </ul>
-        </div>
-
-        <div id="Contacto" class="tabcontent">
-            <h2>Contacto</h2>
-            <ul>
-                <li><a href="mailto:miguelgarciapel@protonmail.com">Mi correo electronico</a></li>
-            </ul>
-        </div>
-
-        <div id="Proyectosgusta" class="tabcontent">
-            <h2>Mis Proyectos Gustados</h2>
-            <p>Aquí encontrarás algunos proyectos que me gustan de Github:</p>
-            <ul>
-                <li><a href="https://github.com/ktecho/resurrection-wallet">Resurrection Wallet</a> - Frontend de para
-                    Phoenixd</li>
-                <li><a href="https://github.com/jamaljsr/polar">Polar</a> - Simulador de nodos de Lightning Network</li>
-            </ul>
-        </div>
-
-        <div id="ProyectosUnreal" class="tabcontent">
-            <h2>Mis Proyectos en Unreal Engine</h2>
-
-            <div id="Galeria digital cuadros Loli Mancebo" class="video-container">
-                <video width="640" height="360" controls>
-                    <source src="Galería cuadros Loli.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <p>Estos son algunos de mis proyectos desarrollados con Unreal Engine:</p>
-            <ul>
-                <li><a href="#" onclick="playVideo('Galeria digital cuadros Loli Mancebo'); return false;">Galeria
-                        digital cuadros Loli Mancebo</a> - Breve descripción del juego</li>
-            </ul>
-
-            <h3>Video de mi proyecto en Unreal Engine</h3>
-            <p>1. Este video muestra una demostración de mi último proyecto en Unreal Engine. En él, puedes ver los
-                cuadros que ha hecho mi abuela.</p>
-        </div>
-
-        <div id="LibrosLeidos" class="tabcontent">
-            <style>
-                #customize-list {
-                    float: left;
-                    margin-left: 0px;
-                    list-style: none;
-                }
-
-                #gr_updates_widget {
-                    float: left;
-                    border-radius: 5px;
-                    background-color: #fff;
-                    border: solid #683205 10px;
-                    -webkit-box-shadow: 0px 0px 4px 1px #595959,
-                        inset 0px 0px 0px 1px #7D730B;
-                    -moz-box-shadow: 0px 0px 4px 1px #595959,
-                        inset 0px 0px 0px 1px #7D730B;
-                    box-shadow: 0px 0px 4px 1px #595959,
-                        inset 0px 0px 0px 1px #7D730B;
-                    padding: 15px 0 0px 15px;
-                    width: 350px;
-                    height: 565px;
-                }
-
-                #gr_footer {
-                    margin-bottom: 0px;
-                    height: 30px;
-                }
-
-                #gr_updates_widget p {
-                    padding: 0px;
-                    margin: 0;
-                    font-size: 14px;
-                }
-
-                #gr_footer img {
-                    width: 100px;
-                    float: left;
-                }
-            </style>
-            <div id="gr_updates_widget">
-                <iframe sandbox id="the_iframe"
-                    src="https://goodreads.com/widgets/user_update_widget?height=600&num_updates=10&user=175216431&width=350"
-                    width="348" height="530" frameborder="0"></iframe>
-                <div id="gr_footer">
-                    <a href="https://www.goodreads.com/"><img
-                            alt="Goodreads: Book reviews, recommendations, and discussion"
-                            src="https://s.gr-assets.com/images/layout/goodreads_logo_140.png" /></a>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="Comparaciones" class="tabcontent">
-            <h2>Comparación de Dispositivos</h2>
-            <div class="comparison-container">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Característica</th>
-                            <th>Samsung</th>
-                            <th>Google Pixel</th>
-                            <th>Apple</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Cámara</strong></td>
-                            <td><span class="dot dot-green"></span>Black dragon 128 MP</td>
-                            <td><span class="dot dot-green"></span>Black Dragon 508 MP</td>
-                            <td><span class="dot dot-red"></span>Apple 48 MP</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Procesador</strong></td>
-                            <td><span class="dot dot-green"></span>Exynos 3350 Plus</td>
-                            <td><span class="dot dot-green"></span>Qualcomm Snapdragon 3X2</td>
-                            <td><span class="dot dot-red"></span>Exynos 2951 SE</td>
-                        </tr>
-                        <tr>
-                            <td><strong>S.O.</strong></td>
-                            <td><span class="dot dot-green"></span>Android 16.1.1 "Marshmallow"</td>
-                            <td><span class="dot dot-green"></span>Android 16.1.2 "Marshmallow"</td>
-                            <td><span class="dot dot-red"></span>iOS 26 "Glass"</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Alarma</strong></td>
-                            <td><span class="dot dot-green"></span>Tranquila</td>
-                            <td><span class="dot dot-green"></span>Tranquila</td>
-                            <td><span class="dot dot-red"></span>Sonido de barra cayendo 1 hora</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Batería</strong></td>
-                            <td><span class="dot dot-green"></span>Samsung 6000 mAh</td>
-                            <td><span class="dot dot-green"></span>TSMC 5500 mAh</td>
-                            <td><span class="dot dot-red"></span>Apple 6000 mAh</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Apps</strong></td>
-                            <td><span class="dot dot-green"></span>Play Store O€</td>
-                            <td><span class="dot dot-green"></span>Play Store O€</td>
-                            <td><span class="dot dot-red"></span>Apple Store 88€+Mac</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Otros S.O.</strong></td>
-                            <td><span class="dot dot-green"></span>+100</td>
-                            <td><span class="dot dot-green"></span>+100 y Graphene OS</td>
-                            <td><span class="dot dot-red"></span>Nope</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<main>
+  <!-- HERO -->
+  <section id="inicio" class="hero">
+    <div class="hero-avatar">
+      <img src="foto.png" alt="Foto de miguepollo"
+           onerror="this.onerror=null; this.src='https://avatars.githubusercontent.com/u/127879645?v=4';">
     </div>
+    <p class="hero-greet">Hola, soy</p>
+    <h1 class="hero-name">miguepollo</h1>
+    <div class="hero-type"><span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
+    <p class="hero-desc">
+      Desarrollador con base sólida en <strong>Python</strong> y <strong>Linux</strong>. Levanto servidores, automatizo
+      tareas con scripts e integro APIs. Además trabajo con <strong>IA en local</strong> (llama.cpp, Ollama),
+      <strong>Home Assistant</strong>, <strong>Machine Learning</strong> y <strong>Testing / QA</strong>.
+    </p>
+    <div class="hero-actions">
+      <a href="#proyectos" class="btn btn-primary"><i class="fa-solid fa-diagram-project"></i> Ver proyectos</a>
+      <a href="https://github.com/miguepollo" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-github"></i> GitHub</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="statRepos">36</span><span class="stat-label">repos públicos</span></div>
+      <div class="stat"><span class="stat-num" id="statFollowers">2</span><span class="stat-label">seguidores</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Linux lover 🐧</span></div>
+    </div>
+    <a class="scroll-hint" href="#habilidades" aria-label="Bajar a habilidades"><i class="fa-solid fa-chevron-down"></i></a>
+  </section>
+  <!-- HABILIDADES -->
+  <section id="habilidades" class="section">
+    <header class="section-head reveal">
+      <h2>Habilidades</h2>
+      <p class="section-sub">Lo que hago día a día, de punta a punta.</p>
+    </header>
+    <div class="skills-grid">
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-brands fa-python"></i></div>
+        <h3>Python</h3>
+        <p>Base sólida: scripting, automatización de tareas e integración de APIs.</p>
+        <div class="skill-tags"><span>Scripts</span><span>Automatización</span><span>APIs</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-brands fa-linux"></i></div>
+        <h3>Linux &amp; SysAdmin</h3>
+        <p>De principio a fin: levantar servidores, configurar servicios y administrar el sistema.</p>
+        <div class="skill-tags"><span>Servidores</span><span>Servicios</span><span>Bash</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-brands fa-git-alt"></i></div>
+        <h3>Control de versiones</h3>
+        <p>Git y GitHub en todos mis proyectos: ramas, colaboración y flujos limpios.</p>
+        <div class="skill-tags"><span>Git</span><span>GitHub</span><span>Colaboración</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-solid fa-code"></i></div>
+        <h3>Desarrollo web</h3>
+        <p>Creo sitios y aplicaciones web con HTML, WordPress y JavaScript.</p>
+        <div class="skill-tags"><span>HTML</span><span>WordPress</span><span>JavaScript</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-solid fa-brain"></i></div>
+        <h3>IA en local</h3>
+        <p>Inferencia de modelos LLM en mi propio hardware con llama.cpp y Ollama.</p>
+        <div class="skill-tags"><span>llama.cpp</span><span>Ollama</span><span>LLM</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-solid fa-house-signal"></i></div>
+        <h3>Home Assistant</h3>
+        <p>Automatización del hogar: sensores, dispositivos y rutinas inteligentes.</p>
+        <div class="skill-tags"><span>Domótica</span><span>IoT</span><span>Sensores</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Machine Learning</h3>
+        <p>Análisis predictivo con modelos de ML que corren en varios dispositivos.</p>
+        <div class="skill-tags"><span>Predicción</span><span>Modelos</span><span>Multi-dispositivo</span></div>
+      </article>
+      <article class="skill-card reveal">
+        <div class="skill-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+        <h3>Testing / QA</h3>
+        <p>Pruebas y control de calidad para asegurar que lo que entrego funciona bien.</p>
+        <div class="skill-tags"><span>Testing</span><span>QA</span><span>Calidad</span></div>
+      </article>
+    </div>
+  </section>
 
-    <footer>
-        <p>© 2025 Miguel. Todos los derechos reservados.</p>
-    </footer>
+  <!-- PROYECTOS -->
+  <section id="proyectos" class="section">
+    <header class="section-head reveal">
+      <h2>Proyectos</h2>
+      <p class="section-sub">Mis proyectos importantes en GitHub, nada de librerías 😉</p>
+    </header>
+    <div class="filters reveal" id="filters"></div>
+    <div class="projects-grid" id="projectsGrid"></div>
+    <div class="load-more-wrap reveal">
+      <button id="loadMore" class="btn btn-ghost"><i class="fa-solid fa-rotate"></i> Cargar todos mis repos desde GitHub</button>
+      <div id="extraRepos" class="extra-repos"></div>
+    </div>
+  </section>
+</main>
 
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
+<footer class="footer">
+  <p>Hecho con <i class="fa-solid fa-heart"></i> por <a href="https://github.com/miguepollo" target="_blank" rel="noopener">miguepollo</a></p>
+  <p class="footer-meta">© <span id="year">2026</span> · Desarrollador Python &amp; Linux</p>
+</footer>
+<script>
+'use strict';
 
-        function playVideo(videoId) {
-            var videoContainer = document.getElementById(videoId);
-            videoContainer.style.display = "block";
-            var video = videoContainer.querySelector('video');
-            if (video) {
-                video.play();
-            }
-        }
+/* ---------- Año ---------- */
+document.getElementById('year').textContent = new Date().getFullYear();
 
-        function toggleBookDescription(bookId) {
-            var description = document.getElementById(bookId);
-            if (description.style.display === "none" || description.style.display === "") {
-                description.style.display = "block";
-            } else {
-                description.style.display = "none";
-            }
-        }
+/* ---------- Navegación ---------- */
+const navToggle = document.getElementById('navToggle');
+const navLinksEl = document.getElementById('navLinks');
+const nav = document.querySelector('.nav');
 
-        function closeBookDescription(bookId) {
-            var description = document.getElementById(bookId);
-            description.style.display = "none";
-        }
+navToggle.addEventListener('click', () => {
+  const open = navLinksEl.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', String(open));
+  navToggle.querySelector('i').className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+});
 
-        // Abre la pestaña Principal por defecto
-        document.getElementById("Principal").style.display = "block";
-        document.getElementsByClassName("tablinks")[0].className += " active";
-    </script>
+navLinksEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinksEl.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.querySelector('i').className = 'fa-solid fa-bars';
+}));
+
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 30));
+
+const sectionIds = ['inicio', 'habilidades', 'proyectos'];
+function highlightNav() {
+  const pos = window.scrollY + 140;
+  let current = '';
+  for (const id of sectionIds) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= pos) current = id;
+  }
+  navLinksEl.querySelectorAll('a').forEach(a =>
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', highlightNav);
+highlightNav();
+
+/* ---------- Fondo de estrellas ---------- */
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+const starColors = ['255,255,255', '173,216,230', '221,214,254'];
+let stars = [], W = 0, H = 0;
+
+function newStar() {
+  return {
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.3,
+    spd: Math.random() * 0.25 + 0.03,
+    tw: Math.random() * Math.PI * 2,
+    twSpd: Math.random() * 0.03 + 0.008,
+    hue: Math.random() < 0.14 ? Math.floor(Math.random() * starColors.length) : 0
+  };
+}
+
+function resizeStars() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  stars = Array.from({ length: Math.round(Math.min(170, W / 9)) }, newStar);
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  for (const s of stars) {
+    s.y -= s.spd;
+    if (s.y < -3) { s.y = H + 3; s.x = Math.random() * W; }
+    s.tw += s.twSpd;
+    const a = (0.25 + 0.75 * Math.abs(Math.sin(s.tw))).toFixed(2);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + starColors[s.hue] + ',' + a + ')';
+    ctx.fill();
+  }
+  requestAnimationFrame(drawStars);
+}
+window.addEventListener('resize', resizeStars);
+resizeStars();
+drawStars();
+
+/* ---------- Efecto de escritura ---------- */
+const phrases = [
+  'Desarrollador Python & Linux',
+  'IA local con llama.cpp y Ollama',
+  'Home Assistant y automatización',
+  'Machine Learning multi-dispositivo',
+  'Testing / QA de principio a fin'
+];
+const typedEl = document.getElementById('typed');
+let pi = 0, ci = 0, deleting = false;
+
+function typeLoop() {
+  const current = phrases[pi];
+  typedEl.textContent = current.slice(0, ci);
+  if (!deleting) {
+    if (ci < current.length) { ci++; setTimeout(typeLoop, 55); }
+    else { deleting = true; setTimeout(typeLoop, 1800); }
+  } else {
+    if (ci > 0) { ci--; setTimeout(typeLoop, 26); }
+    else { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(typeLoop, 350); }
+  }
+}
+typeLoop();
+
+/* ---------- Animaciones al hacer scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('visible');
+      io.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ---------- Proyectos ---------- */
+const projects = [
+  { name: 'Asistente-Virtual-Kubik', cat: 'ia', lang: 'Python', icon: 'fa-microphone-lines',
+    desc: 'Asistente de voz 100% offline para Orange Pi 5 Ultra: wake word, STT (Vosk), TTS (Piper) y LLM acelerado por NPU, con panel web de configuración.',
+    tags: ['Python', 'IA local', 'LLM', 'Flask', 'Linux'],
+    url: 'https://github.com/miguepollo/Asistente-Virtual-Kubik' },
+  { name: 'CPU-usage', cat: 'linux', lang: 'Python', icon: 'fa-gauge-high',
+    desc: 'Monitor de sistema en tiempo real para Raspberry Pi: CPU, RAM y temperatura. Servidor Flask + cliente gráfico en tkinter.',
+    tags: ['Python', 'Flask', 'Raspberry Pi'],
+    url: 'https://github.com/miguepollo/CPU-usage' },
+  { name: 'Comandos-Utiles', cat: 'linux', lang: 'Bash', icon: 'fa-terminal',
+    desc: 'Guía práctica con los comandos más útiles de Linux: administración, red y automatización del día a día.',
+    tags: ['Linux', 'Bash', 'SysAdmin'],
+    url: 'https://github.com/miguepollo/Comandos-Utiles' },
+  { name: 'tamagotchi', cat: 'web', lang: 'TypeScript', icon: 'fa-gamepad',
+    desc: 'Tu mascota virtual de escritorio hecha con Tauri + React + TypeScript.',
+    tags: ['TypeScript', 'React', 'Tauri'],
+    url: 'https://github.com/miguepollo/tamagotchi' },
+  { name: 'weatherliketoday', cat: 'web', lang: 'JavaScript', icon: 'fa-cloud-sun',
+    desc: 'Aplicación del clima interactiva en JavaScript.',
+    tags: ['JavaScript', 'API'],
+    url: 'https://github.com/miguepollo/weatherliketoday' },
+  { name: 'Cardputer-Firmware', cat: 'iot', lang: 'C++', icon: 'fa-keyboard',
+    desc: 'Firmware personalizado para el M5Stack Cardputer: una mini computadora con teclado basada en ESP32.',
+    tags: ['C++', 'ESP32', 'Firmware'],
+    url: 'https://github.com/miguepollo/Cardputer-Firmware' },
+  { name: 'OWM_EPD47_epaper', cat: 'iot', lang: 'C', icon: 'fa-temperature-half',
+    desc: 'Panel e-paper de 4.7" que muestra el clima en tiempo real con datos de OpenWeatherMap.',
+    tags: ['C', 'e-paper', 'API'],
+    url: 'https://github.com/miguepollo/OWM_EPD47_epaper' },
+  { name: 'my-keyestudio-project', cat: 'iot', lang: 'Arduino', icon: 'fa-house',
+    desc: 'Electrónica con el kit Keyestudio KS5009: reloj en pantalla y casa con sensores de temperatura y humedad.',
+    tags: ['Arduino', 'Sensores', 'Electrónica'],
+    url: 'https://github.com/miguepollo/my-keyestudio-project' },
+  { name: 'Mis-Proyectos-En-Phython', cat: 'python', lang: 'Python', icon: 'fa-laptop-code',
+    desc: 'Colección de proyectos en Python siguiendo cursos y libros: de scripts a aplicaciones completas.',
+    tags: ['Python', 'Proyectos'],
+    url: 'https://github.com/miguepollo/Mis-Proyectos-En-Phython' },
+  { name: 'Nostr-Notifier', cat: 'otros', lang: 'C', icon: 'fa-bell',
+    desc: 'Notificador de eventos para el protocolo descentralizado Nostr.',
+    tags: ['C', 'Nostr'],
+    url: 'https://github.com/miguepollo/Nostr-Notifier' },
+  { name: 'nostr-signer', cat: 'otros', lang: 'C', icon: 'fa-signature',
+    desc: 'Utilidad para firmar eventos de Nostr de forma local.',
+    tags: ['C', 'Nostr', 'Seguridad'],
+    url: 'https://github.com/miguepollo/nostr-signer' },
+  { name: 'Bitcoin-Address', cat: 'otros', lang: 'C', icon: 'fa-coins',
+    desc: 'Herramienta en C para trabajar con direcciones Bitcoin.',
+    tags: ['C', 'Bitcoin'],
+    url: 'https://github.com/miguepollo/Bitcoin-Address' },
+  { name: 'esptone', cat: 'iot', lang: 'C', icon: 'fa-music',
+    desc: 'Proyecto de tonos y audio para ESP32 en C.',
+    tags: ['C', 'ESP32', 'Audio'],
+    url: 'https://github.com/miguepollo/esptone' },
+  { name: 'packs-for-mc-friends', cat: 'otros', lang: 'Minecraft', icon: 'fa-cubes',
+    desc: 'Packs personalizados de Minecraft para jugar con amigos.',
+    tags: ['Minecraft', 'Packs'],
+    url: 'https://github.com/miguepollo/packs-for-mc-friends' },
+  { name: 'Robot-Code', cat: 'iot', lang: 'C++', icon: 'fa-robot',
+    desc: 'Código de proyectos de robótica y automatización.',
+    tags: ['Robótica', 'C++'],
+    url: 'https://github.com/miguepollo/Robot-Code' }
+];
+
+const filters = { all: 'Todos', ia: 'IA & ML', linux: 'Linux', web: 'Web & Apps', iot: 'IoT & HW', python: 'Python', otros: 'Otros' };
+
+function renderFilters() {
+  const f = document.getElementById('filters');
+  f.innerHTML = Object.entries(filters).map(([k, label]) =>
+    '<button class="chip' + (k === 'all' ? ' active' : '') + '" data-f="' + k + '">' + label + '</button>'
+  ).join('');
+  f.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    filterProjects(chip.dataset.f);
+  });
+}
+
+function filterProjects(cat) {
+  document.querySelectorAll('.project-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+function renderProjects() {
+  const grid = document.getElementById('projectsGrid');
+  grid.innerHTML = projects.map(p =>
+    '<article class="project-card" data-cat="' + p.cat + '">' +
+      '<div class="project-top">' +
+        '<span class="project-icon"><i class="fa-solid ' + p.icon + '"></i></span>' +
+        '<span class="project-lang">' + p.lang + '</span>' +
+      '</div>' +
+      '<h3>' + p.name + '</h3>' +
+      '<p>' + p.desc + '</p>' +
+      '<div class="project-tags">' + p.tags.map(t => '<span>' + t + '</span>').join('') + '</div>' +
+      '<a class="project-link" href="' + p.url + '" target="_blank" rel="noopener">' +
+        '<i class="fa-brands fa-github"></i> Ver en GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i>' +
+      '</a>' +
+    '</article>'
+  ).join('');
+
+  grid.querySelectorAll('.project-card').forEach((card, i) => {
+    card.style.transitionDelay = ((i % 6) * 70) + 'ms';
+    card.addEventListener('transitionend', () => { card.style.transitionDelay = '0ms'; }, { once: true });
+    io.observe(card);
+  });
+}
+
+/* ---------- Cargar todos los repos (GitHub API) ---------- */
+const loadMoreBtn = document.getElementById('loadMore');
+loadMoreBtn.addEventListener('click', loadAllRepos);
+
+async function loadAllRepos() {
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando repos desde GitHub…';
+  try {
+    const res = await fetch('https://api.github.com/users/miguepollo/repos?per_page=100&sort=updated');
+    if (!res.ok) throw new Error('API error');
+    const repos = await res.json();
+    const known = new Set(projects.map(p => p.name));
+    const extra = repos.filter(r => !r.fork && !known.has(r.name) && r.name !== 'miguepollo');
+    if (extra.length) {
+      document.getElementById('extraRepos').innerHTML =
+        '<p class="extra-title"><i class="fa-solid fa-diagram-project"></i> Más repos míos</p>' +
+        '<ul class="extra-list">' + extra.map(r =>
+          '<li><a href="' + r.html_url + '" target="_blank" rel="noopener">' + r.name + '</a>' +
+          (r.language ? '<span class="tag">' + r.language + '</span>' : '') +
+          (r.description ? '<span class="extra-desc">' + r.description + '</span>' : '') +
+          '</li>'
+        ).join('') + '</ul>';
+    }
+    loadMoreBtn.innerHTML = '<i class="fa-solid fa-check"></i> Todos mis repos cargados';
+  } catch (err) {
+    loadMoreBtn.disabled = false;
+    loadMoreBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> No se pudo conectar · Reintentar';
+  }
+}
+
+async function loadStats() {
+  try {
+    const res = await fetch('https://api.github.com/users/miguepollo');
+    if (!res.ok) throw new Error('API error');
+    const u = await res.json();
+    document.getElementById('statRepos').textContent = u.public_repos;
+    document.getElementById('statFollowers').textContent = u.followers;
+  } catch (err) { /* mantiene los valores por defecto */ }
+}
+
+renderFilters();
+renderProjects();
+loadStats();
+</script>
 
 </body>
-
 </html>
