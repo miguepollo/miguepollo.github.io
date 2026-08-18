@@ -313,7 +313,12 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 /* ---------- Proyectos ---------- */
 const projects = [
-  { name: 'llm_predict_markets', cat: 'ia', lang: 'Python', icon: 'fa-arrow-trend-up',
+{ name: 'llmchat', cat: 'ia', lang: 'Rust', icon: 'fa-comments',
+    desc: { es: 'Cliente de chat ligero y nativo en Rust (egui) para APIs compatibles con OpenAI.',
+            en: 'Lightweight native chat client in Rust (egui) for OpenAI-compatible APIs.' },
+    tags: { es: ['Rust', 'LLM', 'Desktop'], en: ['Rust', 'LLM', 'Desktop'] },
+    url: 'https://github.com/miguepollo/llmchat' },
+  { name: 'llm_predict_markets', cat: 'ia', lang: 'Python', icon: 'fa-arrow-trend-up', fork: true,
     desc: { es: 'Predicciones de mercados con LLM y 4 backends de forecasting: TimesFM 2.5, Moirai, Kronos y Chronos-2. Con soporte de GPU (NVIDIA, AMD, Intel XPU/NPU) y tests. Fork con mis mejoras.',
             en: 'Market predictions with LLMs and 4 forecasting backends: TimesFM 2.5, Moirai, Kronos and Chronos-2. GPU support (NVIDIA, AMD, Intel XPU/NPU) and tests. Fork with my improvements.' },
     tags: { es: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'], en: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'] },
@@ -420,7 +425,8 @@ function filterProjects(cat) {
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
   grid.innerHTML = projects.map(p =>
-    '<article class="project-card" data-cat="' + p.cat + '">' +
+    '<article class="project-card' + (p.fork ? ' has-badge' : '') + '" data-cat="' + p.cat + '">' +
+      (p.fork ? '<span class="project-badge"><i class="fa-solid fa-code-branch"></i> fork</span>' : '') +
       '<div class="project-top">' +
         '<span class="project-icon"><i class="fa-solid ' + p.icon + '"></i></span>' +
         '<span class="project-lang">' + p.lang + '</span>' +
