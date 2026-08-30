@@ -54,7 +54,7 @@
       <a href="https://github.com/miguepollo" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-github"></i> <span data-i18n="hero.btnGithub">GitHub</span></a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num" id="statRepos">36</span><span class="stat-label" data-i18n="hero.statRepos">repos públicos</span></div>
+      <div class="stat"><span class="stat-num" id="statRepos">40</span><span class="stat-label" data-i18n="hero.statRepos">repos públicos</span></div>
       <div class="stat"><span class="stat-num" id="statFollowers">2</span><span class="stat-label" data-i18n="hero.statFollowers">seguidores</span></div>
       <div class="stat"><span class="stat-num">100%</span><span class="stat-label" data-i18n="hero.statLinux">Linux lover 🐧</span></div>
     </div>
@@ -313,6 +313,16 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 /* ---------- Proyectos ---------- */
 const projects = [
+{ name: 'omarchy-yt-quick-stats', cat: 'linux', lang: 'QML', icon: 'fa-youtube',
+    desc: { es: 'Plugin para Omarchy que muestra stats de tu canal de YouTube directo en la barra: subs, views, vídeos y últimos 3 vídeos con miniaturas.',
+            en: 'Omarchy plugin showing your YouTube channel stats right in the bar: subs, views, videos and latest 3 videos with thumbnails.' },
+    tags: { es: ['QML', 'Omarchy', 'YouTube API'], en: ['QML', 'Omarchy', 'YouTube API'] },
+    url: 'https://github.com/miguepollo/omarchy-yt-quick-stats' },
+{ name: 'plug', cat: 'linux', lang: 'QML', icon: 'fa-plug', fork: true,
+    desc: { es: 'Fork del gestor de plugins de Omarchy con soporte añadido para opencode. Instalación y gestión de plugins desde la barra.',
+            en: 'Fork of the Omarchy plugin manager with added support for opencode. Install and manage plugins from the bar.' },
+    tags: { es: ['QML', 'Omarchy', 'opencode'], en: ['QML', 'Omarchy', 'opencode'] },
+    url: 'https://github.com/miguepollo/plug' },
 { name: 'llmchat', cat: 'ia', lang: 'Rust', icon: 'fa-comments',
     desc: { es: 'Cliente de chat ligero y nativo en Rust (egui) para APIs compatibles con OpenAI.',
             en: 'Lightweight native chat client in Rust (egui) for OpenAI-compatible APIs.' },
