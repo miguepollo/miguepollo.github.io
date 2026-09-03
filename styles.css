@@ -1,5 +1,5 @@
 :root {
-  --bg: #000000;
+  --bg: #000;
   --text: #e6e8ef;
   --muted: #9aa3b2;
   --border: rgba(255, 255, 255, 0.08);
@@ -406,7 +406,7 @@ body {
 
 .skill-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
 
-.skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tags, .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .skill-tags span, .project-tags span, .tag {
   font-family: var(--mono);
@@ -464,7 +464,6 @@ body {
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 26px;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, background 0.3s, opacity 0.7s ease;
 }
 
 .project-badge {
@@ -534,7 +533,7 @@ body {
 
 .project-card p { color: var(--muted); font-size: 0.95rem; flex: 1; }
 
-.project-tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.project-tags { margin-top: 16px; }
 
 .project-link {
   display: inline-flex;

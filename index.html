@@ -216,8 +216,6 @@ navLinksEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => 
   navToggle.querySelector('i').className = 'fa-solid fa-bars';
 }));
 
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 30));
-
 const sectionIds = ['inicio', 'habilidades', 'proyectos'];
 function highlightNav() {
   const pos = window.scrollY + 140;
@@ -229,8 +227,12 @@ function highlightNav() {
   navLinksEl.querySelectorAll('a').forEach(a =>
     a.classList.toggle('active', a.getAttribute('href') === '#' + current));
 }
-window.addEventListener('scroll', highlightNav);
-highlightNav();
+function onScroll() {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+  highlightNav();
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
 
 /* ---------- Fondo de estrellas ---------- */
 const canvas = document.getElementById('stars');
@@ -316,22 +318,22 @@ const projects = [
 { name: 'omarchy-yt-quick-stats', cat: 'linux', lang: 'QML', icon: 'fa-youtube',
     desc: { es: 'Plugin para Omarchy que muestra stats de tu canal de YouTube directo en la barra: subs, views, vídeos y últimos 3 vídeos con miniaturas.',
             en: 'Omarchy plugin showing your YouTube channel stats right in the bar: subs, views, videos and latest 3 videos with thumbnails.' },
-    tags: { es: ['QML', 'Omarchy', 'YouTube API'], en: ['QML', 'Omarchy', 'YouTube API'] },
+    tags: ['QML', 'Omarchy', 'YouTube API'],
     url: 'https://github.com/miguepollo/omarchy-yt-quick-stats' },
 { name: 'plug', cat: 'linux', lang: 'QML', icon: 'fa-plug', fork: true,
     desc: { es: 'Fork del gestor de plugins de Omarchy con soporte añadido para opencode. Instalación y gestión de plugins desde la barra.',
             en: 'Fork of the Omarchy plugin manager with added support for opencode. Install and manage plugins from the bar.' },
-    tags: { es: ['QML', 'Omarchy', 'opencode'], en: ['QML', 'Omarchy', 'opencode'] },
+    tags: ['QML', 'Omarchy', 'opencode'],
     url: 'https://github.com/miguepollo/plug' },
 { name: 'llmchat', cat: 'ia', lang: 'Rust', icon: 'fa-comments',
     desc: { es: 'Cliente de chat ligero y nativo en Rust (egui) para APIs compatibles con OpenAI.',
             en: 'Lightweight native chat client in Rust (egui) for OpenAI-compatible APIs.' },
-    tags: { es: ['Rust', 'LLM', 'Desktop'], en: ['Rust', 'LLM', 'Desktop'] },
+    tags: ['Rust', 'LLM', 'Desktop'],
     url: 'https://github.com/miguepollo/llmchat' },
   { name: 'llm_predict_markets', cat: 'ia', lang: 'Python', icon: 'fa-arrow-trend-up', fork: true,
     desc: { es: 'Predicciones de mercados con LLM y 4 backends de forecasting: TimesFM 2.5, Moirai, Kronos y Chronos-2. Con soporte de GPU (NVIDIA, AMD, Intel XPU/NPU) y tests. Fork con mis mejoras.',
             en: 'Market predictions with LLMs and 4 forecasting backends: TimesFM 2.5, Moirai, Kronos and Chronos-2. GPU support (NVIDIA, AMD, Intel XPU/NPU) and tests. Fork with my improvements.' },
-    tags: { es: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'], en: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'] },
+    tags: ['Python', 'LLM', 'Forecasting', 'GPU', 'ML'],
     url: 'https://github.com/miguepollo/llm_predict_markets' },
   { name: 'Asistente-Virtual-Kubik', cat: 'ia', lang: 'Python', icon: 'fa-microphone-lines',
     desc: { es: 'Asistente de voz 100% offline para Orange Pi 5 Ultra: wake word, STT (Vosk), TTS (Piper) y LLM acelerado por NPU, con panel web de configuración.',
@@ -341,32 +343,32 @@ const projects = [
   { name: 'CPU-usage', cat: 'linux', lang: 'Python', icon: 'fa-gauge-high',
     desc: { es: 'Monitor de sistema en tiempo real para Raspberry Pi: CPU, RAM y temperatura. Servidor Flask + cliente gráfico en tkinter.',
             en: 'Real-time system monitor for Raspberry Pi: CPU, RAM and temperature. Flask server + tkinter GUI client.' },
-    tags: { es: ['Python', 'Flask', 'Raspberry Pi'], en: ['Python', 'Flask', 'Raspberry Pi'] },
+    tags: ['Python', 'Flask', 'Raspberry Pi'],
     url: 'https://github.com/miguepollo/CPU-usage' },
   { name: 'Comandos-Utiles', cat: 'linux', lang: 'Bash', icon: 'fa-terminal',
     desc: { es: 'Guía práctica con los comandos más útiles de Linux: administración, red y automatización del día a día.',
             en: 'Practical guide with the most useful Linux commands: administration, networking and day-to-day automation.' },
-    tags: { es: ['Linux', 'Bash', 'SysAdmin'], en: ['Linux', 'Bash', 'SysAdmin'] },
+    tags: ['Linux', 'Bash', 'SysAdmin'],
     url: 'https://github.com/miguepollo/Comandos-Utiles' },
   { name: 'tamagotchi', cat: 'web', lang: 'TypeScript', icon: 'fa-gamepad',
     desc: { es: 'Tu mascota virtual de escritorio hecha con Tauri + React + TypeScript.',
             en: 'Your desktop virtual pet built with Tauri + React + TypeScript.' },
-    tags: { es: ['TypeScript', 'React', 'Tauri'], en: ['TypeScript', 'React', 'Tauri'] },
+    tags: ['TypeScript', 'React', 'Tauri'],
     url: 'https://github.com/miguepollo/tamagotchi' },
   { name: 'weatherliketoday', cat: 'web', lang: 'JavaScript', icon: 'fa-cloud-sun',
     desc: { es: 'Aplicación del clima interactiva en JavaScript.',
             en: 'Interactive weather app in JavaScript.' },
-    tags: { es: ['JavaScript', 'API'], en: ['JavaScript', 'API'] },
+    tags: ['JavaScript', 'API'],
     url: 'https://github.com/miguepollo/weatherliketoday' },
   { name: 'Cardputer-Firmware', cat: 'iot', lang: 'C++', icon: 'fa-keyboard',
     desc: { es: 'Firmware personalizado para el M5Stack Cardputer: una mini computadora con teclado basada en ESP32.',
             en: 'Custom firmware for the M5Stack Cardputer: a mini keyboard computer based on ESP32.' },
-    tags: { es: ['C++', 'ESP32', 'Firmware'], en: ['C++', 'ESP32', 'Firmware'] },
+    tags: ['C++', 'ESP32', 'Firmware'],
     url: 'https://github.com/miguepollo/Cardputer-Firmware' },
   { name: 'OWM_EPD47_epaper', cat: 'iot', lang: 'C', icon: 'fa-temperature-half',
     desc: { es: 'Panel e-paper de 4.7" que muestra el clima en tiempo real con datos de OpenWeatherMap.',
             en: '4.7" e-paper panel showing real-time weather from OpenWeatherMap.' },
-    tags: { es: ['C', 'e-paper', 'API'], en: ['C', 'e-paper', 'API'] },
+    tags: ['C', 'e-paper', 'API'],
     url: 'https://github.com/miguepollo/OWM_EPD47_epaper' },
   { name: 'my-keyestudio-project', cat: 'iot', lang: 'Arduino', icon: 'fa-house',
     desc: { es: 'Electrónica con el kit Keyestudio KS5009: reloj en pantalla y casa con sensores de temperatura y humedad.',
@@ -381,12 +383,12 @@ const projects = [
   { name: 'Bitcoin-Address', cat: 'otros', lang: 'C', icon: 'fa-coins',
     desc: { es: 'Herramienta en C para trabajar con direcciones Bitcoin.',
             en: 'C tool for working with Bitcoin addresses.' },
-    tags: { es: ['C', 'Bitcoin'], en: ['C', 'Bitcoin'] },
+    tags: ['C', 'Bitcoin'],
     url: 'https://github.com/miguepollo/Bitcoin-Address' },
   { name: 'esptone', cat: 'iot', lang: 'C', icon: 'fa-music',
     desc: { es: 'Proyecto de tonos y audio para ESP32 en C.',
             en: 'Tones and audio project for ESP32 in C.' },
-    tags: { es: ['C', 'ESP32', 'Audio'], en: ['C', 'ESP32', 'Audio'] },
+    tags: ['C', 'ESP32', 'Audio'],
     url: 'https://github.com/miguepollo/esptone' }
 ];
 
@@ -423,7 +425,7 @@ function renderProjects() {
       '</div>' +
       '<h3>' + p.name + '</h3>' +
       '<p>' + p.desc[currentLang] + '</p>' +
-      '<div class="project-tags">' + p.tags[currentLang].map(tag => '<span>' + tag + '</span>').join('') + '</div>' +
+      '<div class="project-tags">' + (p.tags[currentLang] || p.tags).map(tag => '<span>' + tag + '</span>').join('') + '</div>' +
       '<a class="project-link" href="' + p.url + '" target="_blank" rel="noopener">' +
         '<i class="fa-brands fa-github"></i> ' + t('projects.viewOn') + ' <i class="fa-solid fa-arrow-up-right-from-square"></i>' +
       '</a>' +
@@ -444,14 +446,18 @@ const loadMoreText = document.getElementById('loadMoreText');
 let reposLoaded = false;
 loadMoreBtn.addEventListener('click', loadAllRepos);
 
+async function gh(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('API error');
+  return res.json();
+}
+
 async function loadAllRepos() {
   loadMoreBtn.disabled = true;
   loadMoreIcon.className = 'fa-solid fa-spinner fa-spin';
   loadMoreText.textContent = t('projects.loading');
   try {
-    const res = await fetch('https://api.github.com/users/miguepollo/repos?per_page=100&sort=updated');
-    if (!res.ok) throw new Error('API error');
-    const repos = await res.json();
+    const repos = await gh('https://api.github.com/users/miguepollo/repos?per_page=100&sort=updated');
     const known = new Set(projects.map(p => p.name));
     const extra = repos.filter(r => !r.fork && !known.has(r.name) && r.name !== 'miguepollo');
     if (extra.length) {
@@ -476,9 +482,7 @@ async function loadAllRepos() {
 
 async function loadStats() {
   try {
-    const res = await fetch('https://api.github.com/users/miguepollo');
-    if (!res.ok) throw new Error('API error');
-    const u = await res.json();
+    const u = await gh('https://api.github.com/users/miguepollo');
     document.getElementById('statRepos').textContent = u.public_repos;
     document.getElementById('statFollowers').textContent = u.followers;
   } catch (err) { /* mantiene los valores por defecto */ }
