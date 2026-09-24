@@ -290,47 +290,190 @@ function commitScore(key,value,el,gain){
 function clamp(v,a,b){return v<a?a:(v>b?b:v)}
 function lerp(a,b,t){return a+(b-a)*t}
 
-/* ================= Sonido (WebAudio, sin assets) ================= */
+/* ================= Sonido (WebAudio, sin assets) =================
+   Pac-Man: sirena continua + waka. Tetris: arreglo propio de Korobeiniki
+   (melodia tradicional de dominio publico) y efectos de pieza. */
 const Sfx=(function(){
-  let ctx=null,enabled=true;
+  let ctx=null,master=null,enabled=true,noise=null,pac=null,tet=null;
   try{enabled=localStorage.getItem('arcade-sound')!=='0'}catch(e){}
-  function ac(){try{if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();return ctx}catch(e){return null}}
+  const CHASE=[466,523,587,659,698,659,587,523];
+  const FRIGHT=[196,233,196,175,156,175];
+  const THEME=[
+    659,1, 494,.5, 523,.5, 587,1, 523,.5, 494,.5,
+    440,1, 440,.5, 523,.5, 659,1, 587,.5, 523,.5,
+    494,1.5, 523,.5, 587,1, 659,1,
+    523,1, 440,1, 440,2, 0,.5,
+    587,1, 698,.5, 880,1, 880,.5, 784,.5, 698,.5,
+    659,1.5, 523,.5, 659,1, 587,.5, 523,.5,
+    494,1, 494,.5, 523,.5, 587,1, 659,1,
+    523,1, 440,1, 440,2, 0,1
+  ];
+  function ac(){
+    try{
+      if(!ctx){
+        ctx=new (window.AudioContext||window.webkitAudioContext)();
+        master=ctx.createGain();
+        master.gain.value=enabled?0.85:0;
+        master.connect(ctx.destination);
+      }
+      if(ctx.state==='suspended')ctx.resume();
+      return ctx;
+    }catch(e){return null}
+  }
   function tone(o){
-    if(!enabled)return;const c=ac();if(!c)return;
+    if(!enabled)return;const c=ac();if(!c)return null;
     const f=o.f||440,f2=o.f2||null,d=o.d||0.08,type=o.type||'square',v=o.v||0.08,when=o.when||0;
     try{
       const t=c.currentTime+when,osc=c.createOscillator(),g=c.createGain();
-      osc.type=type;osc.frequency.setValueAtTime(f,t);
+      osc.type=type;osc.frequency.setValueAtTime(Math.max(1,f),t);
       if(f2)osc.frequency.exponentialRampToValueAtTime(Math.max(1,f2),t+d);
-      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+0.01);
+      const rel=Math.min(0.045,d*0.28);
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(v,t+0.01);
+      g.gain.setValueAtTime(v,t+Math.max(0.012,d-rel));
       g.gain.exponentialRampToValueAtTime(0.0001,t+d);
-      osc.connect(g);g.connect(c.destination);osc.start(t);osc.stop(t+d+0.03);
+      osc.connect(g);g.connect(master);osc.start(t);osc.stop(t+d+0.02);
+      return osc;
+    }catch(e){return null}
+  }
+  function noiseBuf(c){
+    if(noise)return noise;
+    const n=Math.floor(c.sampleRate*0.25),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);
+    for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+    noise=b;return b;
+  }
+  function noiseBlip(freq,dur,vol,q){
+    if(!enabled)return;const c=ac();if(!c)return;
+    try{
+      const t=c.currentTime,src=c.createBufferSource(),bp=c.createBiquadFilter(),g=c.createGain();
+      src.buffer=noiseBuf(c);
+      bp.type='bandpass';bp.frequency.value=freq;bp.Q.value=q||6;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(vol,t+0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      src.connect(bp);bp.connect(g);g.connect(master);
+      src.start(t);src.stop(t+dur+0.02);
     }catch(e){}
   }
+  function pacStop(){
+    if(!pac)return;
+    pac.dead=true;
+    try{pac.osc.stop()}catch(e){}
+    pac=null;
+  }
+  function pacStart(mode,pace){
+    pacStop();
+    if(!enabled)return;
+    const c=ac();if(!c)return;
+    const osc=c.createOscillator(),g=c.createGain();
+    osc.type='square';osc.frequency.value=CHASE[0];
+    g.gain.value=0.04;
+    osc.connect(g);g.connect(master);osc.start();
+    pac={osc,mode,pace:pace||0,i:0,dead:false,next:0};
+  }
+  function pacAdvance(){
+    if(!pac||pac.dead)return;
+    const c=ac();if(!c)return;
+    const gap=pac.mode==='fright'?0.062:Math.max(0.072,0.15-(pac.pace||0)*0.07);
+    if(c.currentTime<pac.next)return;
+    const notes=pac.mode==='fright'?FRIGHT:CHASE;
+    try{pac.osc.frequency.setValueAtTime(notes[pac.i%notes.length],c.currentTime)}catch(e){}
+    pac.i++;
+    pac.next=c.currentTime+gap;
+  }
+  function tetStop(){
+    if(!tet)return;
+    tet.dead=true;
+    for(const v of tet.voices){try{v.osc.stop()}catch(e){}}
+    tet=null;
+  }
+  function tetStart(){
+    tetStop();
+    if(!enabled)return;
+    const c=ac();if(!c)return;
+    tet={dead:false,i:0,next:c.currentTime+0.02,beat:60/164,voices:[]};
+  }
+  function tetPump(){
+    if(!tet||tet.dead)return;
+    const c=ac();if(!c)return;
+    const horizon=c.currentTime+0.22;
+    let guard=0;
+    while(tet.next<horizon&&guard++<6){
+      const f=THEME[tet.i],beats=THEME[tet.i+1];
+      const dur=beats*tet.beat;
+      if(!(dur>0))break;
+      const at=Math.max(0,tet.next-c.currentTime);
+      if(f>0){
+        const lead=tone({f,d:dur*0.9,type:'square',v:0.055,when:at});
+        const bass=tone({f:f/2,d:dur*0.85,type:'triangle',v:0.028,when:at});
+        if(lead)tet.voices.push({osc:lead,end:tet.next+dur});
+        if(bass)tet.voices.push({osc:bass,end:tet.next+dur});
+      }
+      tet.next+=dur;
+      tet.i=(tet.i+2)%THEME.length;
+    }
+    const now=c.currentTime;
+    tet.voices=tet.voices.filter(v=>v.end>now-0.05);
+  }
+  function stopLoops(){pacStop();tetStop()}
   return{
     get enabled(){return enabled},
-    toggle(){enabled=!enabled;try{localStorage.setItem('arcade-sound',enabled?'1':'0')}catch(e){}return enabled},
+    toggle(){
+      enabled=!enabled;
+      try{localStorage.setItem('arcade-sound',enabled?'1':'0')}catch(e){}
+      if(ctx&&master)master.gain.setValueAtTime(enabled?0.85:0,ctx.currentTime);
+      if(!enabled)stopLoops();
+      return enabled;
+    },
     unlock(){ac()},
+    stopLoops,pacStop,tetStop,
+    pacSync(mode,pace){
+      if(!enabled||!mode){pacStop();return}
+      if(!pac||pac.dead||pac.mode!==mode)pacStart(mode,pace||0);
+      else pac.pace=pace||0;
+      pacAdvance();
+    },
+    tetSync(on){
+      if(!enabled||!on){tetStop();return}
+      if(!tet||tet.dead)tetStart();
+      tetPump();
+    },
     eat(){tone({f:520,f2:920,d:.09,v:.07})},
     bonus(){tone({f:660,d:.08});tone({f:880,d:.08,when:.08});tone({f:1320,d:.14,when:.16})},
     die(){tone({f:320,f2:55,d:.55,type:'sawtooth',v:.11})},
-    waka(a){tone({f:a?560:430,f2:a?720:560,d:.07,v:.045})},
-    power(){tone({f:140,f2:640,d:.45,type:'sawtooth',v:.08})},
-    eatGhost(){tone({f:200,f2:1300,d:.32,v:.09})},
-    fruit(){tone({f:880,d:.09});tone({f:1174,d:.14,when:.09})},
-    death(){for(let i=0;i<6;i++)tone({f:620-i*95,d:.12,when:i*.11,type:'triangle',v:.09})},
-    win(){[523,659,784,1046].forEach((f,i)=>tone({f,d:.13,when:i*.1,type:'square',v:.07}))},
-    oneUp(){[660,830,990,1320].forEach((f,i)=>tone({f,d:.1,when:i*.08,type:'triangle',v:.09}))},
-    move(){tone({f:230,d:.03,v:.028})},
-    rotate(){tone({f:330,f2:470,d:.06,v:.05})},
-    lock(){tone({f:170,d:.06,v:.07})},
-    hard(){tone({f:850,f2:180,d:.11,type:'sawtooth',v:.06})},
-    hold(){tone({f:520,f2:340,d:.09,v:.06})},
-    clear(n){[440,554,659,880].slice(0,Math.max(1,n)).forEach((f,i)=>tone({f,d:.1,when:i*.07,v:.08}))},
-    tetris(){[523,659,784,1046,784,1318].forEach((f,i)=>tone({f,d:.12,when:i*.09,v:.09}))},
     coin(){tone({f:988,d:.07,type:'square',v:.06});tone({f:1319,d:.14,when:.08,type:'square',v:.07})},
     level(){tone({f:600,f2:1250,d:.28,type:'triangle',v:.1})},
-    over(){[400,350,300,200,150].forEach((f,i)=>tone({f,d:.16,when:i*.14,type:'sawtooth',v:.08}))}
+    waka(a){noiseBlip(a?1500:920,0.05,0.28,7);tone({f:a?190:140,d:.035,type:'square',v:.045})},
+    pacIntro(){[392,523,392,659,784].forEach((f,i)=>tone({f,d:.11,when:i*.13,type:'square',v:.06}))},
+    power(){tone({f:180,f2:90,d:.12,type:'square',v:.06})},
+    eatGhost(){tone({f:280,f2:1600,d:.22,type:'square',v:.07})},
+    fruit(){[784,988,1319].forEach((f,i)=>tone({f,d:.09,when:i*.07,type:'square',v:.06}))},
+    oneUp(){[523,659,784,1046].forEach((f,i)=>tone({f,d:.08,when:i*.07,type:'square',v:.06}))},
+    pacDeath(){
+      pacStop();
+      [784,659,587,523,466,415,370,349,311,277,247,220,196,165].forEach((f,i)=>tone({f,d:.07,when:i*.072,type:'square',v:.065}));
+    },
+    pacWin(){
+      pacStop();
+      [523,659,784,1046,784,1046].forEach((f,i)=>tone({f,d:.1,when:i*.09,type:'square',v:.06}));
+    },
+    pacOver(){
+      pacStop();
+      [196,165,139,110,82].forEach((f,i)=>tone({f,d:.16,when:i*.14,type:'square',v:.07}));
+    },
+    move(){tone({f:210,d:.025,type:'square',v:.03})},
+    rotate(){tone({f:620,d:.04,type:'square',v:.045});tone({f:830,d:.05,when:.035,type:'square',v:.04})},
+    lock(){noiseBlip(180,0.05,0.2,2);tone({f:110,d:.04,type:'square',v:.05})},
+    hard(){noiseBlip(900,0.09,0.16,1.2);tone({f:520,f2:90,d:.09,type:'square',v:.05})},
+    hold(){tone({f:440,f2:330,d:.07,type:'square',v:.045})},
+    clear(n){[523,659,784,1046].slice(0,Math.max(1,n)).forEach((f,i)=>tone({f,d:.08,when:i*.055,type:'square',v:.06}))},
+    tetris(){[523,659,784,1046,1319,1046,1568].forEach((f,i)=>tone({f,d:.09,when:i*.07,type:'square',v:.065}))},
+    tetLevel(){[659,784,1046].forEach((f,i)=>tone({f,d:.1,when:i*.08,type:'square',v:.06}))},
+    tetPerfect(){[784,988,1175,1568].forEach((f,i)=>tone({f,d:.1,when:i*.08,type:'square',v:.06}))},
+    tetOver(){
+      tetStop();
+      [494,466,440,415,392,349,311,277,247,220].forEach((f,i)=>tone({f,d:.14,when:i*.11,type:'square',v:.06}));
+    }
   };
 })();
 const soundBtn=document.getElementById('soundToggle');
@@ -361,7 +504,7 @@ tabs.forEach(b=>b.addEventListener('click',()=>{
   try{sessionStorage.setItem('arcade-tab',activeGame)}catch(e){}
   document.getElementById('panel-'+activeGame).classList.add('active');
 }));
-function stopAll(){Snake.silentPause();Pac.silentPause();Tetris.silentPause()}
+function stopAll(){Snake.silentPause();Pac.silentPause();Tetris.silentPause();Sfx.stopLoops()}
 
 /* ============================================================
    SNAKE NEÓN
@@ -834,7 +977,7 @@ const Pac=(function(){
         popup(spot.x,spot.y,'🍒','#fb7185');Sfx.fruit()}
     }
     if(fruit&&pac.x===fruit.x&&pac.y===fruit.y){
-      const v=100*level;score+=v;popup(fruit.x,fruit.y,'+'+v,'#fb7185');Sfx.fruit();Sfx.bonus();fruit=null;
+      const v=100*level;score+=v;popup(fruit.x,fruit.y,'+'+v,'#fb7185');Sfx.fruit();fruit=null;
     }
     if(fright>0){fright--;if(fright===0)combo=0}
     // --- fantasmas ---
@@ -923,11 +1066,11 @@ const Pac=(function(){
   function startDeath(){
     // sincroniza interpolación para que la animación empiece en la casilla final (sin salto atrás)
     pac.px=pac.x;pac.py=pac.y;ghosts.forEach(g=>{g.px=g.x;g.py=g.y});
-    phase='die';phaseT=0;Sfx.death();
+    phase='die';phaseT=0;Sfx.pacDeath();
   }
   function afterDeath(){
     lives--;updateHud();
-    if(lives<=0){phase='over';Sfx.over();msg.textContent='💀 Game over · '+score+' pts · nivel '+level+' · pulsa Jugar';msg.className='msg lose'}
+    if(lives<=0){phase='over';Sfx.pacOver();msg.textContent='💀 Game over · '+score+' pts · nivel '+level+' · pulsa Jugar';msg.className='msg lose'}
     else{
       // reposiciona conservando puntos
       pac.x=pac.home.x;pac.y=pac.home.y;pac.px=pac.x;pac.py=pac.y;pac.dir=DIRS.left;pac.q=DIRS.left;
@@ -937,7 +1080,7 @@ const Pac=(function(){
       msg.textContent='💀 Te atraparon · quedan '+lives+' vidas';msg.className='msg lose';
     }
   }
-  function startWin(){phase='win';phaseT=0;score+=500;updateHud();Sfx.win();msg.textContent='🏆 ¡Nivel '+level+' superado! +500';msg.className='msg win'}
+  function startWin(){phase='win';phaseT=0;score+=500;updateHud();Sfx.pacWin();msg.textContent='🏆 ¡Nivel '+level+' superado! +500';msg.className='msg win'}
   function nextLevel(){
     level++;
     const ks=score,kl=lives;
@@ -946,7 +1089,7 @@ const Pac=(function(){
     msg.textContent='➡️ Nivel '+level+' · más rápido, menos poder';msg.className='msg info';
   }
   function start(){
-    Sfx.unlock();Sfx.coin();
+    Sfx.unlock();Sfx.pacIntro();
     level=1;oneUpGiven=false;started=true;updateHud.prev=0;
     setupLevel(0,3);
     phase='ready';phaseT=0;
@@ -960,9 +1103,10 @@ const Pac=(function(){
   function stop(){if(phase==='play'||phase==='ready')phase='pause'}
   function frame(t){
     requestAnimationFrame(frame);
-    if(activeGame!=='pacman'){last=t;return}
+    if(activeGame!=='pacman'){last=t;Sfx.pacStop();return}
     if(!last)last=t;
     let dt=t-last;last=t;if(dt>120)dt=120;
+    Sfx.pacSync(phase==='play'?(fright>0?'fright':'chase'):null,totalPellets?pelletsEaten/totalPellets:0);
     mouth+=dt/1000*(phase==='play'?9:2);
     if(fruit){fruit.ttl-=dt;if(fruit.ttl<=0)fruit=null}
     for(const p of popups){p.age+=dt/1000;p.y-=dt/1000*0.6}
@@ -1280,12 +1424,12 @@ const Tetris=(function(){
       if(n<4)btb=0;
     }
     score+=pts;
-    if(newLevel>level){level=newLevel;Sfx.level();floater('NIVEL '+level+' ⚡','#c084fc');msg.textContent='Nivel '+level+' · más velocidad';msg.className='msg win'}
+    if(newLevel>level){level=newLevel;Sfx.tetLevel();floater('NIVEL '+level+' ⚡','#c084fc');msg.textContent='Nivel '+level+' · más velocidad';msg.className='msg win'}
     if(board.every(row=>row.every(cell=>!cell))){
       const bonusPts=1000*level;
       score+=bonusPts;
       floater('PERFECT +'+bonusPts,'#facc15');
-      Sfx.win();
+      Sfx.tetPerfect();
     }
     clearing=null;
     spawn();updateHud();
@@ -1303,11 +1447,11 @@ const Tetris=(function(){
   }
   function dropTime(){return Math.max(70,760-(level-1)*65)}
   function gameOver(){
-    phase='over';overT=0;Sfx.over();updateHud();
+    phase='over';overT=0;Sfx.tetOver();updateHud();
     msg.textContent='💀 Game over · '+score+' pts · '+lines+' líneas · nivel '+level+' · Espacio = reintentar';
     msg.className='msg lose';
   }
-  function start(){Sfx.unlock();Sfx.coin();
+  function start(){Sfx.unlock();
     input.left=input.right=input.down=false;dasDir=0;dasAcc=0;arrAcc=0;
     reset();phase='play';msg.textContent='¡Suerte! 🍀 C = hold · Espacio = caída';msg.className='msg info'}
   function togglePause(){
@@ -1318,8 +1462,9 @@ const Tetris=(function(){
   function stop(){if(phase==='play')phase='pause'}
   function frame(t){
     requestAnimationFrame(frame);
-    if(activeGame!=='tetris')return;
+    if(activeGame!=='tetris'){Sfx.tetStop();return}
     const dt=Math.min(100,frame._l?(t-frame._l):16);frame._l=t;
+    Sfx.tetSync(phase==='play');
     // fx
     for(const p of parts){p.age+=dt/1000;p.x+=(p.vx||0)*dt/1000;p.y+=(p.vy||0)*dt/1000;if(p.vy!=null)p.vy+=500*dt/1000}
     parts=parts.filter(p=>p.age<p.life);
