@@ -806,6 +806,7 @@ const Pac=(function(){
   let fright=0,frightMax=1,combo=0,phase='idle',phaseT=0,globalTick=0,modeT=0,modeIdx=0;
   let fruit=null,fruitSpawned={},popups=[],acc=0,last=0,mouth=0,wakaAlt=false,oneUpGiven=false,started=false;
   let staticLayer=null;
+  let cheatBuffer=[],ghostSpeedMultiplier=1;
   const MODES=[{m:'scatter',t:7},{m:'chase',t:20},{m:'scatter',t:7},{m:'chase',t:20},{m:'scatter',t:5},{m:'chase',t:20},{m:'scatter',t:5},{m:'chase',t:1e9}];
   function interval(){return Math.max(72,138-(level-1)*9)}
   function frightTicks(){return Math.round((Math.max(3,7.5-(level-1)*0.9)*1000)/interval())}
@@ -1018,6 +1019,8 @@ const Pac=(function(){
       }
       // normal / fright: un paso con IA (los ojos van por BFS más arriba;
       // en vagabundeo la puerta cuenta como muro para no cruzarla a lo loco)
+      const skipMove=ghostSpeedMultiplier>1&&globalTick%(Math.round(ghostSpeedMultiplier))!==0;
+      if(skipMove)continue;
       if(fright>0&&g.safe<=0&&globalTick%2===1)continue;
       const opts=DIRLIST.filter(d=>{
         if(d.x===-g.dir.x&&d.y===-g.dir.y)return false;
@@ -1279,6 +1282,17 @@ const Pac=(function(){
   addSwipe(cv,d=>setDir(d));
   requestAnimationFrame(frame);
   return{stop,silentPause,setDir,togglePause,isActive:()=>activeGame==='pacman',
+    cheatKey(k){
+      cheatBuffer.push(k.toLowerCase());
+      if(cheatBuffer.length>5)cheatBuffer.shift();
+      if(cheatBuffer.join('')==='julia'){
+        ghostSpeedMultiplier=2;
+        popup(pac.x,pac.y-1,'JULIA MODE','#f472b6');
+        msg.textContent='🎮 Cheat activado: fantasmas a medio tiempo';
+        msg.className='msg win';
+        cheatBuffer=[];
+      }
+    },
     _debug:{get phase(){return phase},get pac(){return pac},get ghosts(){return ghosts},
       get walls(){return walls},get DOOR(){return DOOR},get EXIT(){return EXIT},
       get COLS(){return COLS},get ROWS(){return ROWS},get fright(){return fright},
@@ -1316,6 +1330,7 @@ const Tetris=(function(){
   let phase='idle',fallAcc=0,lockAcc=0,lockResets=0,clearing=null,parts=[],floaters=[],overT=0,dangerFlash=0;
   let dasDir=0,dasAcc=0,arrAcc=0;
   const input={left:false,right:false,down:false};
+  let cheatBuffer=[];
   const DAS=150,ARR=42,LOCK=500;
   function emptyBoard(){return Array.from({length:ROWS},()=>Array(COLS).fill(null))}
   function bag(){const k=Object.keys(SHAPES);for(let i=k.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;const tmp=k[i];k[i]=k[j];k[j]=tmp}return k}
@@ -1662,6 +1677,18 @@ const Tetris=(function(){
       else if(a==='rotate')rotate(1);else if(a==='rotateCcw')rotate(-1);
       else if(a==='drop')hardDrop();else if(a==='hold')holdPiece();
     },
+    cheatKey(k){
+      cheatBuffer.push(k);
+      if(cheatBuffer.length>4)cheatBuffer.shift();
+      if(cheatBuffer.join('')==='9997'&&phase==='play'){
+        score+=50000;
+        updateHud();
+        floater('CHEAT +50000','#f472b6');
+        msg.textContent='🎮 Cheat activado: +50000 puntos';
+        msg.className='msg win';
+        cheatBuffer=[];
+      }
+    },
     isActive:()=>activeGame==='tetris',getPhase:()=>phase
   };
   api._debug={get phase(){return phase},get board(){return board},get cur(){return cur},
@@ -1699,6 +1726,7 @@ document.addEventListener('keydown',e=>{
     else if(k==='ArrowLeft'||k==='a'||k==='A')Pac.setDir('left');
     else if(k==='ArrowRight'||k==='d'||k==='D')Pac.setDir('right');
     else if(k==='p'||k==='P')Pac.togglePause();
+    else if(/^[a-zA-Z]$/.test(k))Pac.cheatKey(k);
   }else if(activeGame==='tetris'){
     if(e.repeat&&(k===' '||k==='x'||k==='X'||k==='z'||k==='Z'||k==='c'||k==='C'||k==='p'||k==='P'||k==='ArrowUp'))return;
     if(k==='ArrowLeft'||k==='a'||k==='A'){if(!e.repeat)Tetris.press('left',true)}
@@ -1710,6 +1738,7 @@ document.addEventListener('keydown',e=>{
     else if(k==='Enter'){if(Tetris.getPhase()==='idle'||Tetris.getPhase()==='over')Tetris.start()}
     else if(k==='c'||k==='C'){Tetris.getPhase()==='idle'?Tetris.start():Tetris.action('hold')}
     else if(k==='p'||k==='P')Tetris.togglePause();
+    else if(/^[0-9]$/.test(k))Tetris.cheatKey(k);
   }
 });
 document.addEventListener('keyup',e=>{
