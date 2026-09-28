@@ -1721,12 +1721,12 @@ document.addEventListener('keydown',e=>{
     else if(k==='p'||k==='P')Snake.togglePause();
     else if(k===' '||k==='Enter'){const ph=Snake.getPhase();if(ph==='idle'||ph==='over')Snake.start()}
   }else if(activeGame==='pacman'){
+    if(/^[a-zA-Z]$/.test(k))Pac.cheatKey(k);
     if(k==='ArrowUp'||k==='w'||k==='W')Pac.setDir('up');
     else if(k==='ArrowDown'||k==='s'||k==='S')Pac.setDir('down');
     else if(k==='ArrowLeft'||k==='a'||k==='A')Pac.setDir('left');
     else if(k==='ArrowRight'||k==='d'||k==='D')Pac.setDir('right');
     else if(k==='p'||k==='P')Pac.togglePause();
-    else if(/^[a-zA-Z]$/.test(k))Pac.cheatKey(k);
   }else if(activeGame==='tetris'){
     if(e.repeat&&(k===' '||k==='x'||k==='X'||k==='z'||k==='Z'||k==='c'||k==='C'||k==='p'||k==='P'||k==='ArrowUp'))return;
     if(k==='ArrowLeft'||k==='a'||k==='A'){if(!e.repeat)Tetris.press('left',true)}
