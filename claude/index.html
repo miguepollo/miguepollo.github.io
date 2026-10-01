@@ -37,7 +37,7 @@
 
   p { margin: 0 0 1rem; }
 
-  h1, h2 {
+  h1, h2, h3 {
     font-family: var(--serif);
     font-weight: 500;
     line-height: 1.2;
@@ -52,6 +52,11 @@
   h2 {
     font-size: 1.55rem;
     margin: 0 0 0.85rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    margin: 1.35rem 0 0.4rem;
   }
 
   .kicker {
@@ -121,16 +126,30 @@
 
   <section>
     <h2>La parte gorda, con Claude</h2>
-    <ul>
-      <li>Sustituir cada primitiva por malla, material HDRP, collider y el builder. Hoy todo es cilindro, esfera o cubo, y el jugador no tiene cuerpo ni arma en la mano.</li>
-      <li>Animación enganchada al código que ya resta durabilidad, despierta trasgos y aplica frío. Un swing fuera de tiempo rompe el combate.</li>
-      <li>Partículas y audio en los sitios donde el HUD y el crossfade por bioma ya hablan. Se cambia el clip, no el sistema.</li>
-      <li>Menús rústicos que sigan diciendo <code>need</code>, <code>blocked</code>, <code>inventory full</code>, <code>cart full</code>, <code>whole</code> y <code>need a tool</code>.</li>
-      <li>Mundo, construcción libre, crafteo, granja, segunda aldea, vehículos, combate y guardado del mundo, sin mover un precio de <code>wary</code> ni partir el Standing si no hay dos aldeas.</li>
-      <li>Dejar la escena de prueba: título, y F5–F9 separados del HUD de depuración, sin perder los tres huecos ni el autosave.</li>
-    </ul>
+    <p>Es cablear código que ya existe. En cada tramo, un modelo que pierde el hilo reescribe un sistema que ya funciona.</p>
+
+    <h3>Primitivas</h3>
+    <p>Hoy no hay una sola malla de arte: árboles en cilindros, rocas en esferas, bichos y NPC en cápsulas, aldea y piezas en cubos, río en losas azules, suelo sin textura. El jugador es un CharacterController y una cámara, sin cuerpo ni arma en la mano. El golpe es un clic y el arco suelta un cubo. Hacen falta materiales HDRP —madera, piedra, fibra, nieve, arena, agua, tela— con texturas de Poly Haven, AI Haven y Freetextures. Tú pones los assets. Claude los cablea: import, escala, colliders y el builder, que es quien instancia el mundo.</p>
+
+    <h3>Animación, partículas y audio</h3>
+    <p>No hay Animator. Hace falta andar, correr, saltar, el swing del hacha en el momento del golpe, tender el arco, subir el escudo, y la reacción de cada bicho: Zarzo, trasgo al ruido, escarabajo, aullador, lobo y oso, oveja, caballo, y un gesto en los NPC, que hoy están clavados. El evento tiene que caer donde ya se restan estamina y durabilidad, se despiertan los trasgos y se aplica el frío. El fuego es una esfera y el único feedback es la frase del HUD (<code>Zarzo</code>, <code>Blocked</code>, <code>Cold</code>, <code>Shield broke</code>). Los efectos salen de ahí. El ambiente son seis bucles de 2 segundos, uno por bioma, con crossfade: se cambia el clip, no el sistema. Faltan pasos, impacto, arco, voces, fuego, trueque, descanso y muerte.</p>
+
+    <h3>Interfaz</h3>
+    <p>Todo es OnGUI, con una cruz de <code>+</code> y el nombre del objeto en texto. Falta título, pausa, ajustes, pantalla de muerte, iconos, durabilidad dibujada, inventario de arrastrar y un mapa de verdad: el objeto Map solo marca río, desierto, cueva y nieve. Los menús tienen que seguir diciendo <code>need</code>, <code>inventory full</code>, <code>cart full</code>, <code>blocked</code>, <code>whole</code> y <code>need a tool</code>. Las teclas están fijas. No hay rebinding.</p>
+
+    <h3>Mundo y construcción</h3>
+    <p>Una malla de unos 192 m, una semilla, biomas por umbral de coordenadas, contenido puesto a mano. Ampliar es un scatter que el builder entienda, sin romper la semilla ni lo que el HUD ya nombra. El agua es una lámina y el cauce no tiene recursos. La construcción es la cuadrícula de 2 m: el techo necesita pared, puerta, escalera o ventana, la valla no lo sostiene, y una pendiente no es <code>blocked</code>. Falta el cimiento, la decoración libre, recoger una pieza, cofre, luz, cultivo y una valla de jugador. Cada pieza nueva entra por el builder y por el guardado de lo colocado.</p>
+
+    <h3>Crafteo, animales y aldea</h3>
+    <p>El árbol es corto a propósito: mano, mesa y hoguera, y la hoguera solo cocina carne. De piedra solo existe el hacha. Lo que no sabes al empezar lo vende el bibliotecario. Descubrir recetas jugando tiene que dejar las lecciones, los precios de <code>wary</code> y <code>trusted</code>, el mapa que solo sale a trusted, y el salto del hueco activo al objeto recién hecho. El caballo cuenta 3 de carne cocinada y la oveja 2 de fibra. Falta el cultivo, que el bioma importe y un recinto del jugador, con el mismo contador que ya baja si matas caballo u oveja junto a la aldea. Hay una aldea. Una segunda obliga a partir el Standing en dos, a no mezclar precios y a enseñar en el bibliotecario solo lo de esa aldea. Los oficios extra no están decididos.</p>
+
+    <h3>Vehículos, combate, físicas y guardado</h3>
+    <p>El carro y el barco ya se conducen: el frío frena, fuera del agua el barco dice <code>need water</code>, y al morir la carga se queda. Encima va malla, peso y sonido, no un sistema nuevo. El combate es cuerpo a cuerpo y arco. El escudo anula el golpe entero. El arco no tala ni pica, la caza son dos flechas, y golpear sin herramienta no gasta durabilidad. Falta el adelanto del golpe y que el bloqueo se lea antes de <code>Blocked</code>. Los enemigos van en línea. El rodeo no puede hacer que el trasgo deje de ser ciego ni que el lobo suelte la correa. Si una pieza se viene abajo al quitarle el apoyo, la pendiente sigue sin ser <code>blocked</code>. El guardado tapa al jugador y no al mundo: al cargar, lo talado, lo picado y los bichos muertos vuelven. Ampliarlo es fácil de corromper, porque ya serializa durabilidad, leña y los cuatro huecos del carro.</p>
+
+    <h3>Dejar la escena de prueba</h3>
+    <p><code>Build Dev Loop Scene</code> sirve para desarrollar. Publicar en PC empieza por una pantalla de título y por separar el HUD de depuración (<code>Save 1</code>, <code>empty</code>, <code>Tamed</code>, <code>Standing:</code>, <code>known</code>) de F5–F9, sin perder los tres huecos ni el autosave. La prioridad es que se vea bien.</p>
+
     <p>El primero: mallas, materiales, animación de lo que ya pega, HUD rústico y audio de los huecos que ya suenan. El segundo: mundo, construcción libre, descubrimiento de recetas, segunda aldea solo si el Standing queda partido, guardado del mundo y pantalla de título.</p>
-    <p>Ahí se nota el modelo. Si pierde el hilo, rompe una frase del HUD o un precio y obliga a rehacer un sistema que ya funciona.</p>
   </section>
 
   <hr>
