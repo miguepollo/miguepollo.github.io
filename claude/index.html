@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uno o dos meses del plan Pro</title>
+<meta name="description" content="Nota para decidir si pagar Claude Pro uno o dos meses y cortar la suscripción al terminar la pasada que queda del prototipo.">
+<style>
+  :root {
+    --bg: #161410;
+    --ink: #e8e1d6;
+    --muted: #b3a89c;
+    --dim: #8c8174;
+    --line: #3a342c;
+    --mark: #c4a36a;
+    --code: #e2d0b0;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: "Segoe UI", system-ui, sans-serif;
+    --mono: Consolas, "Courier New", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .wrap {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.35rem 5.5rem;
+  }
+
+  p { margin: 0 0 1rem; }
+
+  h1, h2, h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.2;
+    color: #f3ece3;
+  }
+
+  h1 {
+    font-size: 2.35rem;
+    margin: 0.35rem 0 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.65rem;
+    margin: 0 0 1rem;
+  }
+
+  h3 {
+    font-size: 1.28rem;
+    margin: 0 0 0.85rem;
+  }
+
+  .kicker {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--mark);
+  }
+
+  .lead { font-size: 1.12rem; }
+
+  a {
+    color: var(--mark);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.84em;
+    color: var(--code);
+  }
+
+  ul {
+    margin: 0 0 1rem;
+    padding: 0 0 0 1.15rem;
+  }
+
+  li { margin: 0 0 0.35rem; }
+
+  li::marker { color: var(--dim); }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 2.75rem 0;
+  }
+
+  .num {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: var(--serif);
+    font-size: 0.92rem;
+    color: var(--mark);
+  }
+
+  article { margin: 0 0 2.6rem; }
+
+  article:last-child { margin-bottom: 0; }
+
+  .modelo {
+    margin: 1.15rem 0 0;
+    padding-left: 0.85rem;
+    border-left: 2px solid #8c6a3e;
+    color: #ddd4c8;
+  }
+
+  .modelo strong {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: #f3ece3;
+  }
+
+  .meses h3 { margin-top: 1.35rem; }
+
+  .cierre {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    line-height: 1.35;
+    color: #f3ece3;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 2.75rem 1.1rem 4rem; }
+    h1 { font-size: 1.85rem; }
+    body { font-size: 1.02rem; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <p class="kicker">Nota para decidir la suscripción</p>
+    <h1>Uno o dos meses del plan Pro</h1>
+    <p class="lead">El prototipo ya se juega y el diseño está cerrado por escrito. Lo que pagas es la pasada que queda: sustituir primitivas, enganchar la animación a reglas que ya existen, pasar el OnGUI a menús, cambiar unos clips, y ampliar mundo, construcción, crafteo y guardado sin duplicar el controlador viejo. Al terminar, la suscripción se corta.</p>
+    <p>El plan es Pro. El ritmo son sesiones concentradas, no un agente el día entero. Claude no pinta texturas ni hace el rig: paga el cableado en Unity mientras tú traes los assets.</p>
+  </header>
+
+  <hr>
+
+  <section>
+    <h2>Lo que ya está</h2>
+    <p>Supervivencia en primera persona, un jugador, PC, Unity 6 HDRP. Se hace fully vibe coded: el modelo escribe el código y tú lo pruebas en Unity. Hasta ahora el flujo era Cline + DeepSeek, y con eso el bucle ya existe. Hay intención de publicarlo. El juego no tiene nombre.</p>
+    <p>Lo que se juega son unos 48 scripts C#. La escena no se edita a mano: la regenera un builder de editor. Hay un segundo montón de scripts de un controlador viejo, que no es el que se juega. Tocarlos, o duplicar un sistema encima, es el error típico de cualquier pasada.</p>
+    <p>Cualquier pasada tiene que respetar números ya fijados: costes de receta, durabilidad, reputación, frases del HUD, qué sostiene un techo, qué despierta a los trasgos. El bucle ya cierra: con el hambre alta se regenera salud y en cero la salud baja; sin estamina no se corre, no se salta, no se golpea, no se dispara, no se coloca y no se bloquea. Alrededor de eso ya hay tala, picado, crafteo, construcción en cuadrícula, criaturas, una aldea que trueca, carro, barco y tres huecos de guardado. Al morir, el inventario cae junto a un poste rojo y a los 10 minutos desaparece. A los 3 segundos reapareces en el inicio.</p>
+    <p>Eso ya se prueba en primitivas. No se paga por inventarlo otra vez.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Lo que queda</h2>
+    <p>Cada bloque de abajo es trabajo real de cablear código que ya existe, sin romperlo. Esa es la razón del modelo. Úsalos como lista de la pasada, no como un resumen.</p>
+
+    <article id="primitivas">
+      <h3><span class="num">1</span>Sustituir cada primitiva, una por una</h3>
+      <p>Hoy no hay una sola malla de arte.</p>
+      <ul>
+        <li>Árboles: cilindros. Rocas: esferas. Plantas y el Zarzo antes de levantarse: cilindros bajos.</li>
+        <li>El NPC que da el hacha, el aldeano, el bibliotecario, el curandero, el herrero y el granjero: cápsulas tintadas.</li>
+        <li>Lobo, oso, caballo, ovejas, aullador y trasgos: cápsulas. Escarabajos: esferas aplastadas.</li>
+        <li>Aldea: tres cubos. Corral: cuatro postes. Muerte: un cilindro rojo y cubos de botín.</li>
+        <li>Flecha: un cubo. Escudo: un cubo que aparece delante. Hoguera: un cilindro y una esfera.</li>
+        <li>Mesa, refugio, suelo, pared, puerta, escalera, techo, ventana, valla, carro y barco: cubos escalados.</li>
+        <li>Río: losas azules finas. Suelo: la malla sin textura.</li>
+      </ul>
+      <p>El jugador es un CharacterController y una cámara. No tiene cuerpo, ni brazos, ni el arma en la mano. El golpe es un clic instantáneo. El arco no se tiende: desaparece un cubo hacia delante.</p>
+      <p>Hacen falta materiales HDRP por superficie: madera, piedra, fibra, nieve, arena, agua, tela basta de la aldea. El objetivo escrito es que se vea bien, con texturas de Poly Haven, AI Haven y Freetextures. La coherencia de estilo no es la prioridad. Los assets los pones tú. El modelo los cablea: import, materiales, escala, colliders y el builder, que es quien instancia el mundo.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si instancia el asset fuera del builder, o cambia la escala y deja el collider del cilindro, la escena que regeneras deja de ser la que jugabas.</p>
+    </article>
+
+    <article id="animacion">
+      <h3><span class="num">2</span>Animación</h3>
+      <p>No hay Animator en nada. Hace falta ciclo de andar, correr y saltar. El swing del hacha tiene que coincidir con el momento del golpe: ahora el daño es instantáneo y solo cuesta estamina y durabilidad. Tender, montar y soltar el arco. Subir y bajar el escudo, que hoy es mantener el clic derecho, ir más lento y gastar estamina.</p>
+      <p>Cada bicho necesita reacción al golpe y muerte. El Zarzo, agachado, levantándose, pegando y volviendo a agacharse. El escarabajo saliendo de la arena. El trasgo orientándose al ruido. El aullador. El lobo y el oso pasando de largo y, tras el golpe, persiguiendo. La oveja pastando, huyendo y al esquilarla. El caballo al montar, desmontar y en sus aires. Idle y un gesto de hablar en cada NPC, que ahora están clavados en el sitio. El carro y el barco se deslizan rígidos.</p>
+      <p>Esto es retarget, máquinas de estado y enganchar los eventos a código que ya resta durabilidad, ya despierta trasgos y ya aplica frío.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el evento del swing no cae donde hoy se restan estamina y durabilidad, el combate que ya funciona pega en el aire o dos veces.</p>
+    </article>
+
+    <article id="particulas">
+      <h3><span class="num">3</span>Partículas y lectura visual</h3>
+      <p>El fuego es una esfera. No hay humo, chispa al picar, astilla al talar, polvo al correr, estela de flecha, salpicadura, ni un fogonazo cuando el escudo anula el golpe. Esos efectos tienen que salir de los mismos sitios donde el HUD ya dice <code>Zarzo</code>, <code>Trasgo</code>, <code>Beetle</code>, <code>Howler</code>, <code>Cold</code>, <code>Wolf</code>, <code>Bear</code>, <code>Blocked</code> o <code>Shield broke</code>. Hoy el único feedback es esa frase.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el chispeo no sale del mismo punto que ya escribe la frase, acabas con dos avisos que no coinciden.</p>
+    </article>
+
+    <article id="audio">
+      <h3><span class="num">4</span>Audio</h3>
+      <p>Hay seis bucles de 2 segundos sintetizados en código: bosque, llanura, desierto, nieve, río y cueva. Van en estéreo, sin posición, con un crossfade según dónde estás. No hay archivos.</p>
+      <p>Falta, y la fuente prevista es Freesound o generar el clip si no aparece: pasos según el suelo (tierra, madera colocada, piedra, arena, nieve, agua), impacto de herramienta, crujido del árbol, piedra, arco, flecha al clavar, bloqueo, voces o gruñidos de cada criatura, fuego, río, clic de menú, trueque, descanso y muerte. El ambiente por bioma ya tiene el gancho: un AudioSource por bioma que sube y baja. Hay que cambiar la fuente del clip.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si reescribe el crossfade en vez de cambiar el clip, pierde el único ambiente que ya existe.</p>
+    </article>
+
+    <article id="interfaz">
+      <h3><span class="num">5</span>Interfaz</h3>
+      <p>Todo es OnGUI, sin texturas. Una cruz hecha con un <code>+</code>. Arriba a la izquierda, el nombre del sitio. Abajo, tres barras de color y una fila de huecos con el nombre del objeto en texto. El activo lleva un <code>&gt;</code>. El aviso de interacción es <code>[E] …</code>. Los paneles de hoguera, trueque, lecciones del bibliotecario y el descanso son la misma letra de sistema.</p>
+      <p>La dirección de arte escrita es menús rústicos. Falta pantalla de título, pausa, ajustes, muerte (ahora reapareces a los 3 segundos sin pantalla), iconos por objeto, durabilidad dibujada, inventario de arrastrar (la capacidad es 20 y el juego se maneja con los huecos 1–8), un libro de recetas que no sea una lista de depuración, y un mapa de verdad. El objeto Map solo añade marcas de texto en el HUD para río, desierto, cueva y nieve.</p>
+      <p>Las teclas están fijas en código: WASD, Shift, Espacio, ratón, clic izquierdo, clic derecho, E, Q, Z, X, C, R, F, 1–8, F5–F7, F9, Esc. No hay rebinding. Cada panel tiene que seguir diciendo lo que ya dice el juego cuando falta material (<code>need</code>), no cabe (<code>inventory full</code>, <code>cart full</code>), el borde está ocupado (<code>blocked</code>), la herramienta está entera (<code>whole</code>) o no es una herramienta (<code>need a tool</code>).</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el menú rústico deja de soltar esas frases, dejas de saber por qué no puedes craftear, y esa lógica ya está escrita.</p>
+    </article>
+
+    <article id="mundo">
+      <h3><span class="num">6</span>El mundo, más allá de la malla de 192 m</h3>
+      <p>Hay una sola malla, de 97×97 vértices, separación de 2 m, unos 192 m de lado, una semilla, un Perlin. Sin chunks ni streaming. Llano en el inicio y en la aldea. El centro es bosque. Al oeste, un rectángulo de llanura. Al este, desierto si x pasa de 26. Al norte, nieve si z pasa de 26. Un cauce al oeste, de unos 10 m de ancho, con losas azules. Al sur, la cueva es un hoyo en la misma malla, no una mazmorra. El HUD escribe el bioma, o <code>Cave</code>.</p>
+      <p>El contenido no está sembrado por reglas: el builder lo pone en coordenadas fijas. Un anillo de árboles cerca del inicio, algunas plantas, tres Zarzos, rocas, dos enjambres de escarabajos, dos aulladores, un lobo, un oso, un caballo, tres ovejas, una aldea, tres trasgos. Pasado el bosque hay más árboles y rocas, pero siguen siendo esa lista, no un reparto que aguante un mapa mayor.</p>
+      <p>Los biomas son umbrales de coordenadas. No cambian tablas de botín, coste de construir ni qué puede crecer. El diseño dice que una granja en nieve o desierto es posible pero menos viable. Eso no está simulado: allí solo hay menos cosas colocadas a mano, y el frío solo existe como el golpe del aullador.</p>
+      <p>El agua es una lámina. El barco la consulta y se niega a salir. El caballo no entra. El jugador no nada. No hay corriente, orilla con choque propio ni pesca. El cauce, a propósito, no tiene recursos. La cueva no tiene props, luz propia ni recovecos: es el hoyo y los tres trasgos.</p>
+      <p>Ampliar esto es un scatter que el builder entienda, más de un punto de interés, y no romper la semilla ni las zonas que el HUD ya nombra.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el scatter cambia la semilla o los umbrales, el HUD deja de nombrar el sitio que ya nombra.</p>
+    </article>
+
+    <article id="construccion">
+      <h3><span class="num">7</span>Construcción, el tramo que el diseño ya aprobó</h3>
+      <p>Hoy solo hay piezas estructurales en la cuadrícula de 2 m, más hoguera, mesa y refugio. El suelo se apoya en el terreno. Pared, puerta, ventana, valla y escalera ocupan un borde, uno por borde. El techo cubre ese suelo y necesita pared, puerta, escalera o ventana. La valla no lo sostiene. Las frases son <code>need a floor</code>, <code>need a wall</code> y <code>blocked</code>.</p>
+      <p>Una pendiente no pone el borde en <code>blocked</code> solo por el suelo, pero la pieza sigue sentada en la rejilla: no hay cimiento que abrace el terreno ni decoración libre, que es la otra mitad del sistema aprobado. No se puede recoger una pieza colocada. No hay cofre, cama como mueble (el descanso es el refugio, con E dentro, 3 segundos, y no se puede repetir hasta pasados 30), luz colocable, parcela de cultivo, ni una valla de jugador que contenga a las ovejas. El corral de la aldea no es construible. No hay variantes de material.</p>
+      <p>Cada pieza nueva tiene que entrar por el builder y por el guardado de lo colocado, que ya guarda posición, giro, leña de la hoguera y carga del carro. La hoguera se enciende sola, dura 50 segundos, cada tronco suma 50 hasta 3, y cocina carne.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el cimiento marca la pendiente como <code>blocked</code>, o la pieza nueva no entra en ese guardado, rompe la cuadrícula que ya coloca.</p>
+    </article>
+
+    <article id="crafteo">
+      <h3><span class="num">8</span>Crafteo, corto a propósito y aún no el árbol del diseño</h3>
+      <p>Objetos de ahora: madera, piedra, fibra, cuerda, carne cruda, carne cocinada, tres hachas, arco, flechas, escudo, hoguera, mesa, refugio, ocho piezas de casa, carro, barco, poción, antídoto y mapa. Estaciones: mano, mesa y hoguera. La hoguera solo cocina carne. El jugador recibe un hacha de un NPC. Tala cilindros (madera), pica esferas (piedra, sin herramienta) y golpea cilindros bajos (2 de fibra).</p>
+      <p>En la mano, 2 de madera hacen hoguera, 3 hacen mesa, 4 de fibra hacen cuerda y 1 de madera hace 4 flechas. En la mesa: hacha de piedra (20 golpes), refugio (6 de madera), suelo, pared, puerta, ventana (2), valla (1), escalera y techo (3), arco y escudo (3 de madera y 1 de cuerda), carro (6 y 1), barco (8 y 1). El hacha del NPC dura 48. La del herrero, 36. El arco aguanta 30 disparos. El escudo, 16 bloqueos. Cada golpe o disparo resta 1. En cero, el objeto desaparece. Al empezar solo se saben hoguera, mesa, hacha de piedra, carne cocinada, cuerda y flechas. Empezar trae 2 de carne cruda solo para probar la hoguera. El diseño es empezar sin nada.</p>
+      <p>El diseño pide herramientas de piedra, en plural. Solo existe el hacha. La piedra se pica sin herramienta. No hay pico, cuchillo, armadura ni un segundo plato. El diseño dice que las recetas se descubren jugando. En el prototipo, lo que no sabes al empezar lo vende el bibliotecario por madera o por cuerda. No hay prueba y error, ni desbloqueo por haber estado junto a una mesa con los materiales.</p>
+      <p>Cambiar eso tiene que dejar en pie las lecciones, los precios según <code>wary</code> y <code>trusted</code>, y el mapa que solo aparece a trusted. Al craftear algo colocable o una herramienta, el hueco activo salta a ese objeto. Hay que conservarlo.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Es de los diffs más fáciles de estropear: se borra una lección, se mueve un precio, o el hueco activo deja de saltar al objeto recién hecho.</p>
+    </article>
+
+    <article id="granja">
+      <h3><span class="num">9</span>Animales y el principio de granja</h3>
+      <p>El caballo solo cuenta carne cocinada (3) y luego se monta. No entra al agua. La oveja solo cuenta fibra (2), se esquila (2 de fibra) y espera 45 segundos. Hay tres, en un corral de cuatro postes. No comen después, no crían, no se escapan, y «ovejas y similares» se quedó en una especie. El lobo y el oso tienen una correa de unos 16 m y ya está: pasan de largo hasta que les pegas, luego persiguen y sueltan carne.</p>
+      <p>El Zarzo se levanta al acercarte, pega fuerte y suelta 3 de fibra. Los escarabajos salen al acercarte y sueltan piedra. El diseño permite domesticar algunos y cazar otros, y que una granja en un bioma duro sea posible pero peor. Falta el cultivo, que el bioma importe, y un recinto que construya el jugador. Matar caballo u oveja cerca de la aldea ya baja la reputación. Cualquier ampliación tiene que seguir usando ese mismo contador.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si la granja nueva lleva su propio contador, matar una oveja junto a la aldea deja de bajar la reputación que ya baja.</p>
+    </article>
+
+    <article id="aldea">
+      <h3><span class="num">10</span>Aldea, diálogo y la segunda aldea</h3>
+      <p>Hay una. Tres cubos, que no se construye ni se destruye. El diseño habla de aldeas, en plural, preexistentes, no modificables. La reputación está pensada por aldea. Hoy es un solo número, porque no hay con quién compararlo. De entrada, a <code>trusted</code> (2) bajan precios y salen ofertas nuevas. A <code>wary</code> (−1) desaparecen ofertas y cada precio pide más.</p>
+      <p>Un aldeano trueca. Z y X cambian la oferta. C cierra. Cada NPC tiene dos o tres frases enlatadas que cambian al cerrar o al alejarte. No caminan, no tienen horario, no hay árbol de diálogo. El granjero tiene un único encargo, 4 de fibra por 1 de cuerda, y no se repite. La segunda vez solo habla. El guardado recuerda si ya está hecho. Oficios extra están abiertos y no decididos. Esta pasada no los inventa.</p>
+      <p>Ofertas que ya existen:</p>
+      <ul>
+        <li>Aldeano: madera por carne cruda, piedra por carne cocinada, cuerda por flechas, y a trusted carne cocinada por cuerda.</li>
+        <li>Curandero: carne cocinada por poción (cura salud), cuerda por antídoto (quita el frío), a trusted fibra por otra poción. A wary se va el antídoto.</li>
+        <li>Herrero: hacha y reparar una herramienta gastada por 2 de piedra. A wary se va la reparación.</li>
+        <li>Bibliotecario: enseña el resto de recetas. Piezas de casa por madera, arco y escudo por cuerda, carro y barco por más madera. A wary se esconden arco, escudo, carro y barco. A trusted, el mapa por 2 de piedra, y marca río, desierto, cueva y nieve en el HUD.</li>
+      </ul>
+      <p>Una segunda aldea obliga a partir el Standing en dos, a no mezclar precios, y a enseñar en el bibliotecario solo lo de esa aldea.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si la segunda aldea comparte el único Standing, o el bibliotecario enseña lo de la otra, el trueque que ya existe deja de cuadrar.</p>
+    </article>
+
+    <article id="vehiculos">
+      <h3><span class="num">11</span>Vehículos, que se conducen y no se sienten</h3>
+      <p>El carro son unos cubos y cuatro ruedas primitivas, con 4 huecos. Z y X marcan, R guarda, Q saca. El barco es un casco de cubos y solo va en el cauce. Si no, <code>need water</code>. WASD, Shift gasta estamina, el frío frena. Al morir bajas. La carga se queda en el carro y el barco se queda en el agua.</p>
+      <p>No se rompen, no muestran la carga, no chocan con un árbol de forma que importe, y el carro no lo tira el caballo. El trabajo es malla, peso y sonido encima de esa conducción.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si monta un sistema de vehículos nuevo, deja atrás el frío que ya frena, el <code>need water</code> y la carga que se queda al morir.</p>
+    </article>
+
+    <article id="combate">
+      <h3><span class="num">12</span>Combate, que tiene reglas y no tiene sensación</h3>
+      <p>Cuerpo a cuerpo y arco. La durabilidad depende de quién hizo el arma. El golpe del aullador aplica <code>Cold</code>: no corres y caminas a la mitad. El escudo anula el golpe entero y también ese frío. Sin esquiva y sin combos: eso está cerrado. El arco no tala ni pica. Hacen falta dos flechas para la caza. Golpear sin herramienta no gasta durabilidad. Esas tres reglas tienen que sobrevivir al cambio.</p>
+      <p>Lo que falta es el adelanto del golpe. El Zarzo, el trasgo, el aullador, el lobo y el oso pegan y el HUD pone el nombre. Hace falta un volumen de impacto que coincida con la animación, y que el bloqueo se lea antes de la frase <code>Blocked</code>.</p>
+      <p>Los enemigos se mueven en línea hacia el ruido o hacia ti. No hay malla de navegación. Caminar no hace ruido. Correr, saltar, golpear, disparar o colocar sí, y el trasgo que oye despierta al grupo. En un mapa con casas del jugador, el rodeo en línea se va a notar. Arreglarlo sin que el trasgo deje de ser ciego, ni el lobo deje de soltar la correa, es código delicado.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si el rodeo hace ruido al caminar, el trasgo ciego deja de serlo. Si el volumen no coincide con el swing, el combate que ya resta vida pega fuera de tiempo.</p>
+    </article>
+
+    <article id="fisicas">
+      <h3><span class="num">13</span>Físicas, que el diseño pide y el prototipo simplifica</h3>
+      <p>El diseño dice que las físicas pesan en el combate y en lo ambiental. Hoy el jugador es un CharacterController con gravedad fija, el golpe es una comprobación de distancia, y colocar usa cajas de solape. No hay peso en el carro según la carga, ni un árbol que caiga, ni una pieza que se venga abajo si le quitas el apoyo.</p>
+      <p>Si se hace, tiene que convivir con la regla actual: una pendiente no equivale a <code>blocked</code>.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si al hacer que una pieza caiga sin apoyo conviertes la pendiente en <code>blocked</code>, contradice la colocación que ya está aprobada.</p>
+    </article>
+
+    <article id="guardado">
+      <h3><span class="num">14</span>Guardado, que tapa al jugador y no al mundo</h3>
+      <p>Tres huecos. F5 guarda, F6 y F7 cambian, F9 carga. Autosave cada 60 segundos y al salir si estás vivo. Guarda posición, hambre, salud, estamina, frío, inventario, recetas sabidas, reputación, caballo, ovejas, el encargo y lo colocado, incluida la leña de la hoguera y la carga del carro. Lo suelto en el suelo no entra.</p>
+      <p>Al cargar, el jugador, lo aprendido, la aldea, el caballo, las ovejas, el encargo y lo colocado vuelven. Los nodos talados, las rocas picadas, los bichos muertos y los cubos sueltos del suelo, no. En un mapa de 192 m se nota poco. En cuanto haya más mundo y más caza, una partida guardada miente.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Ampliar el save es de lo más fácil de corromper: ya serializa durabilidad, leña y los cuatro huecos del carro. Un formato nuevo que se deje uno de esos campos pierde lo único que hoy sí vuelve.</p>
+    </article>
+
+    <article id="publicar">
+      <h3><span class="num">15</span>Dejar de ser una escena de prueba</h3>
+      <p>El menú de Unity <code>Game → Dev → Build Dev Loop Scene</code> regenera la escena, los ítems y las recetas. Sirve para desarrollar. No hay pantalla de título, no hay icono, no hay nombre, no hay build de jugador, y el HUD sigue en inglés de depuración mezclado con el juego: <code>Save 1</code>, <code>empty</code>, <code>Tamed</code>, <code>not ready</code>, <code>Healed</code>, <code>Warm</code>, <code>Standing:</code>, <code>known</code>.</p>
+      <p>Publicar en PC, que es la intención, empieza por separar eso de los atajos F5–F9 sin perder los tres huecos ni el autosave. El rendimiento no es la prioridad de esta pasada. La prioridad escrita es que se vea bien.</p>
+      <p class="modelo"><strong>Ahí se nota el modelo.</strong> Si al hacer la build de jugador quita F5, F6, F7 y F9, se lleva los tres huecos y el autosave.</p>
+    </article>
+  </section>
+
+  <hr>
+
+  <section class="meses">
+    <h2>Esos dos meses</h2>
+    <p>Lo caro de inventar ya está. El bucle se juega y los números están escritos. Lo que queda es una pasada acotada. Un modelo que pierde el hilo rompe una frase del HUD o un precio de <code>wary</code> y obliga a rehacer un sistema que ya funciona.</p>
+    <h3>El primero</h3>
+    <p>Presentación de lo que ya se juega. Mallas en el sitio de cada primitiva, materiales HDRP, animación del jugador y de lo que ya pega, HUD rústico encima de las mismas frases, y audio de los huecos que ya suenan: pasos, impacto, criatura, fuego, cambiando el clip del ambiente que ya hace crossfade.</p>
+    <h3>El segundo</h3>
+    <p>Sistemas que crecen. Mundo que el builder siembra sin romper la semilla. Construcción libre y piezas que el guardado ya sabe guardar. Descubrimiento de recetas sin borrar al bibliotecario. Una segunda aldea solo si el Standing queda partido en dos. Guardado del mundo talado y cazado. Pantalla de título, separada de la escena de desarrollo.</p>
+    <p>Al cerrar esa pasada el uso baja a probar y corregir. Ahí se corta la suscripción.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Esto no compra</h2>
+    <p>Dos meses no terminan un supervivencia publicable, con mundo grande, granja completa, varias aldeas y animación de todo el bestiario. Compran sacar el greybox que ya se juega de las primitivas y dejar los sistemas difíciles de no romper —el builder, la reputación, el guardado, la construcción— listos para seguir.</p>
+  </section>
+
+  <hr>
+
+  <p class="cierre">Si esos dos meses son esa pasada, y al terminar cancelas, paga el Pro. Si esperas publicar el juego al cabo de esos dos meses, no pagues.</p>
+
+</main>
+</body>
+</html>
