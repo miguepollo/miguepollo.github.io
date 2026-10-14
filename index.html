@@ -37,10 +37,6 @@
 <main>
   <!-- HERO -->
   <section id="inicio" class="hero">
-    <div class="hero-avatar">
-      <img src="foto.png" alt="Foto de miguepollo"
-           onerror="this.onerror=null; this.src='https://avatars.githubusercontent.com/u/127879645?v=4';">
-    </div>
     <p class="hero-greet" data-i18n="hero.greet">Hola, soy</p>
     <h1 class="hero-name">miguepollo</h1>
     <div class="hero-type"><span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
@@ -190,10 +186,20 @@ const translations = {
 };
 
 let currentLang = (() => {
-  const saved = localStorage.getItem('lang');
-  if (saved === 'es' || saved === 'en') return saved;
+  try {
+    const saved = localStorage.getItem('lang');
+    if (saved === 'es' || saved === 'en') return saved;
+  } catch (e) { /* storage blocked */ }
   return (navigator.language || '').toLowerCase().indexOf('en') === 0 ? 'en' : 'es';
 })();
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 function t(key) {
   return key.split('.').reduce((o, k) => o[k], translations[currentLang]);
@@ -443,7 +449,7 @@ function renderProjects() {
 const loadMoreBtn = document.getElementById('loadMore');
 const loadMoreIcon = document.getElementById('loadMoreIcon');
 const loadMoreText = document.getElementById('loadMoreText');
-let reposLoaded = false;
+let reposStatus = 'idle';
 loadMoreBtn.addEventListener('click', loadAllRepos);
 
 async function gh(url) {
@@ -453,27 +459,29 @@ async function gh(url) {
 }
 
 async function loadAllRepos() {
+  reposStatus = 'loading';
   loadMoreBtn.disabled = true;
   loadMoreIcon.className = 'fa-solid fa-spinner fa-spin';
   loadMoreText.textContent = t('projects.loading');
   try {
     const repos = await gh('https://api.github.com/users/miguepollo/repos?per_page=100&sort=updated');
-    const known = new Set(projects.map(p => p.name));
-    const extra = repos.filter(r => !r.fork && !known.has(r.name) && r.name !== 'miguepollo');
+    const known = new Set(projects.map(p => p.name.toLowerCase()));
+    const extra = repos.filter(r => !r.fork && !known.has(r.name.toLowerCase()) && r.name !== 'miguepollo');
     if (extra.length) {
       document.getElementById('extraRepos').innerHTML =
-        '<p class="extra-title"><i class="fa-solid fa-diagram-project"></i> ' + t('projects.moreRepos') + '</p>' +
+        '<p class="extra-title"><i class="fa-solid fa-diagram-project"></i> ' + escapeHtml(t('projects.moreRepos')) + '</p>' +
         '<ul class="extra-list">' + extra.map(r =>
-          '<li><a href="' + r.html_url + '" target="_blank" rel="noopener">' + r.name + '</a>' +
-          (r.language ? '<span class="tag">' + r.language + '</span>' : '') +
-          (r.description ? '<span class="extra-desc">' + r.description + '</span>' : '') +
+          '<li><a href="' + escapeHtml(r.html_url) + '" target="_blank" rel="noopener">' + escapeHtml(r.name) + '</a>' +
+          (r.language ? '<span class="tag">' + escapeHtml(r.language) + '</span>' : '') +
+          (r.description ? '<span class="extra-desc">' + escapeHtml(r.description) + '</span>' : '') +
           '</li>'
         ).join('') + '</ul>';
     }
-    reposLoaded = true;
+    reposStatus = 'loaded';
     loadMoreIcon.className = 'fa-solid fa-check';
     loadMoreText.textContent = t('projects.loaded');
   } catch (err) {
+    reposStatus = 'error';
     loadMoreBtn.disabled = false;
     loadMoreIcon.className = 'fa-solid fa-triangle-exclamation';
     loadMoreText.textContent = t('projects.error');
@@ -495,9 +503,12 @@ function renderStaticTexts() {
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.content = t('metaDesc');
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    if (el.id === 'loadMoreText' && reposLoaded) return;
+    if (el.id === 'loadMoreText' && reposStatus !== 'idle') return;
     el.textContent = t(el.dataset.i18n);
   });
+  if (reposStatus === 'loading') loadMoreText.textContent = t('projects.loading');
+  else if (reposStatus === 'loaded') loadMoreText.textContent = t('projects.loaded');
+  else if (reposStatus === 'error') loadMoreText.textContent = t('projects.error');
   document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
   document.getElementById('langToggleText').textContent = currentLang === 'es' ? 'EN' : 'ES';
 }

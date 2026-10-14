@@ -167,33 +167,6 @@ body {
   padding: 120px 20px 60px;
 }
 
-.hero-avatar {
-  position: relative;
-  width: 112px; height: 112px;
-  margin-bottom: 22px;
-}
-
-.hero-avatar::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--cyan), var(--violet), var(--pink), var(--cyan));
-  animation: spin 8s linear infinite;
-  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.35));
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.hero-avatar img {
-  position: relative;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  border: 4px solid #000;
-  object-fit: cover;
-  display: block;
-}
-
 .hero-greet {
   color: var(--muted);
   font-size: 1.1rem;
@@ -661,8 +634,6 @@ body {
 
   /* Hero */
   .hero { padding: 110px 20px 70px; }
-
-  .hero-avatar { width: 96px; height: 96px; margin-bottom: 18px; }
 
   .hero-type {
     font-size: 0.85rem;
