@@ -2220,7 +2220,25 @@ const Flappy=(function(){
     barEl=document.getElementById('flapBar');
   bestEl.textContent=best('arcade-flappy-best');
   let bird,pipes,score,phase='idle',paused=false,groundX=0,shake=0,last=0;
-  function gapSize(){return Math.max(122,172-score*3.2)}
+  let cheatBuffer=[],gapMultiplier=1,floaters=[];
+  function gapSize(){return Math.max(122,172-score*3.2)*gapMultiplier}
+  function expandPipeGap(p){
+    const next=p.gap*1.5;
+    const extra=next-p.gap;
+    let gapY=p.gapY-extra/2;
+    const margin=48;
+    const maxY=H-GROUND-next-margin;
+    if(gapY<margin)gapY=margin;
+    if(maxY>=margin){
+      if(gapY>maxY)gapY=maxY;
+      p.gap=next;
+    }else{
+      gapY=margin;
+      p.gap=Math.max(p.gap,H-GROUND-margin*2);
+    }
+    p.gapY=gapY;
+  }
+  function floater(txt,color){floaters.push({txt,color:color||'#fff',age:0,life:1.4})}
   function flightSpeed(){return 170+Math.min(150,score*8)}
   function hud(){
     scoreEl.textContent=String(score);
@@ -2345,6 +2363,15 @@ const Flappy=(function(){
     const rot=phase==='play'||phase==='over'?clamp(bird.vy/540,-0.7,1.2):Math.sin(t/280)*0.25;
     drawBird(y,rot);
     ctx.restore();
+    ctx.save();
+    ctx.textAlign='center';
+    floaters.forEach((f,i)=>{
+      ctx.globalAlpha=1-f.age/f.life;
+      ctx.font='700 15px Space Grotesk, sans-serif';
+      ctx.fillStyle=f.color;ctx.shadowColor=f.color;ctx.shadowBlur=10;
+      ctx.fillText(f.txt,W/2,96+i*24-f.age*30);
+    });
+    ctx.restore();
     if(phase==='idle')arcadeOverlay(ctx,W,H,'PULSA JUGAR','espacio, clic o toque','#22d3ee');
     else if(phase==='play'&&paused)arcadeOverlay(ctx,W,H,'PAUSA','pulsa P para seguir','#facc15');
     else if(phase==='over')arcadeOverlay(ctx,W,H,'GAME OVER',score+' pts','#f472b6');
@@ -2355,6 +2382,8 @@ const Flappy=(function(){
     if(!last)last=t;
     let dt=(t-last)/1000;last=t;if(dt>0.05)dt=0.05;
     if(shake>0)shake=Math.max(0,shake-dt*30);
+    for(const f of floaters)f.age+=dt;
+    floaters=floaters.filter(f=>f.age<f.life);
     if(phase==='play'&&!paused)update(dt);
     else if(phase==='play')groundX=(groundX+40*dt)%32;
     draw(t);
@@ -2365,7 +2394,21 @@ const Flappy=(function(){
   cv.addEventListener('pointerdown',e=>{e.preventDefault();flap()});
   reset();phase='idle';
   requestAnimationFrame(frame);
-  return{start,flap,togglePause,silentPause,isActive:()=>activeGame==='flappy',getPhase:()=>phase};
+  return{start,flap,togglePause,silentPause,isActive:()=>activeGame==='flappy',getPhase:()=>phase,
+    cheatKey(k){
+      cheatBuffer.push(String(k).toLowerCase());
+      if(cheatBuffer.length>5)cheatBuffer.shift();
+      if(cheatBuffer.join('')==='julia'){
+        if(gapMultiplier===1){
+          gapMultiplier=1.5;
+          for(const p of pipes)expandPipeGap(p);
+        }
+        floater('JULIA MODE','#f472b6');
+        msg.textContent='🎮 Cheat activado: hueco x1.5';
+        msg.className='msg win';
+        cheatBuffer=[];
+      }
+    }};
 })();
 
 /* ============================================================
@@ -2861,6 +2904,7 @@ document.addEventListener('keydown',e=>{
     else if(k==='p'||k==='P')Invaders.togglePause();
     else if(k==='Enter'){const ph=Invaders.getPhase();if(ph==='idle'||ph==='over')Invaders.start()}
   }else if(activeGame==='flappy'){
+    if(/^[a-zA-Z]$/.test(k))Flappy.cheatKey(k);
     if(k==='p'||k==='P')Flappy.togglePause();
     else if(!e.repeat&&(k===' '||k==='ArrowUp'||k==='w'||k==='W'||k==='Enter'))Flappy.flap();
   }else if(activeGame==='breakout'){
